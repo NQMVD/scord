@@ -432,7 +432,7 @@ export function SpreadsheetView() {
               >
                 Export Results
               </button>
-              <label className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element cursor-pointer">
+              <label className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element">
                 Import
                 <input
                   type="file"

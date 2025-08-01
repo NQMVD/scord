@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-light: #0d0d0d;
+  --color-dark: #e8e8e8;
+  --charcoal-base: #0d0d0d;
+  --charcoal-surface: #0d0d0d;
+  --charcoal-elevated: #0f0f0f;
+  --charcoal-highlight: #151515;
+  --charcoal-glow: rgba(109, 109, 109, 0.3);
+  --shimmer: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+}
+
+.accent-text {
+  @apply text-gray-400;
+}
+
+body {
+  font-family:
+    "Inter Variable",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+  color: var(--color-dark);
+  background: linear-gradient(
+    135deg,
+    var(--charcoal-base) 0%,
+    #0f0f0f 50%,
+    var(--charcoal-base) 100%
+  );
+  background-attachment: fixed;
+}
+
+.hover\:bg-gray-750:hover {
+  background-color: #2d2d2d;
+}
+
+/* Charcoal theme utility classes */
+.charcoal-surface {
+  background: linear-gradient(
+    145deg,
+    var(--charcoal-elevated),
+    var(--charcoal-surface)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/*.charcoal-surface:hover {
+  background: linear-gradient(
+    145deg,
+    var(--charcoal-highlight),
+    var(--charcoal-elevated)
+  );
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.9),
+    0 0 20px var(--charcoal-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}*/
+
+.charcoal-header {
+  background: linear-gradient(
+    180deg,
+    var(--charcoal-surface),
+    var(--charcoal-base)
+  );
+  border-bottom: 1px solid var(--charcoal-highlight);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.9),
+    0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+.charcoal-glow-text {
+  text-shadow:
+    0 0 10px var(--charcoal-glow),
+    0 0 20px rgba(176, 176, 176, 0.3);
+}
+
+.glass-effect {
+  background: rgba(45, 45, 45, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Interactive elements with subtle animation */
+.interactive-element {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.3, 1);
+  position: relative;
+}
+
+.interactive-element:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.9),
+    0 0 25px var(--charcoal-glow);
+}

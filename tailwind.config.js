@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter var", ...fontFamily.sans],
+        sans: ["PP Supply Sans", "Inter var", ...fontFamily.sans],
       },
       borderRadius: {
         DEFAULT: "8px",

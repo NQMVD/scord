@@ -693,9 +693,9 @@ export function SpreadsheetView() {
 
       {/* Results panel */}
       <div className="w-80 charcoal-surface rounded-lg p-6 flex flex-col">
-        <h3 className="text-xl font-bold charcoal-glow-text mb-4 flex-shrink-0">
+        <h2 className="text-2xl font-bold charcoal-glow-text mb-4 flex-shrink-0">
           Scoring Results
-        </h3>
+        </h2>
 
         <div className="space-y-4 flex-1 overflow-auto">
           {scoreResults.map((result, index) => (
@@ -705,7 +705,8 @@ export function SpreadsheetView() {
             >
               <div className="flex justify-between items-center mb-2">
                 <span className="font-medium text-charcoal-100">
-                  #{index + 1} {result.name}
+                  <span className="text-charcoal-400">#{index + 1}</span>
+                  <span className="ml-2">{result.name}</span>
                 </span>
                 <span className="text-lg font-bold text-charcoal-100 charcoal-glow-text">
                   {result.score.toFixed(1)}%

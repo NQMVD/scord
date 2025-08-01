@@ -123,6 +123,10 @@ label:not(th label) {
   padding-top: 0.6rem !important; /* slightly more than py-2's 0.5rem */
   padding-bottom: 0.4rem !important; /* slightly less than py-2's 0.5rem */
 }
+select:not(th select) {
+  padding-top: 0.6rem !important; /* slightly more than py-2's 0.5rem */
+  padding-bottom: 0.4rem !important; /* slightly less than py-2's 0.5rem */
+}
 
 /* Inputs should be left-aligned */
 input:not(th input) {
@@ -183,6 +187,11 @@ th {
   word-wrap: break-word !important;
   white-space: normal !important;
   line-height: 1.4 !important;
+}
+
+/* Make rank number lighter in result cards */
+.bg-charcoal-900.rounded-lg.p-4 .text-charcoal-400 {
+  font-weight: 300 !important;
 }
 
 /* Make Actions column narrower */

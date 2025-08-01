@@ -3,6 +3,9 @@ import { api } from "../convex/_generated/api";
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
 import { Id } from "../convex/_generated/dataModel";
+import Files from "./assets/glass icons/icons/files";
+import AwardTranslucent from "./assets/glass icons/icons/award-translucent";
+import CloudDownload from "./assets/glass icons/icons/cloud-download";
 
 interface ScoreResult {
   contestantId: Id<"contestants">;
@@ -432,17 +435,20 @@ export function SpreadsheetView() {
               </div>
               <button
                 onClick={handleExportData}
-                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element bg-charcoal-800"
+                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element bg-charcoal-800 flex items-center gap-2"
               >
-                Export <span className="text-charcoal-400">Data</span>
+                <Files className="w-5 h-5" />
+                Export Data
               </button>
               <button
                 onClick={handleExportResults}
-                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element bg-charcoal-700"
+                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element bg-charcoal-700 flex items-center gap-2"
               >
-                Export <span className="text-charcoal-400">Results</span>
+                <AwardTranslucent className="w-5 h-5" />
+                Export Results
               </button>
-              <label className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element cursor-pointer">
+              <label className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element cursor-pointer flex items-center gap-2">
+                <CloudDownload className="w-5 h-5" />
                 Import
                 <input
                   type="file"
@@ -457,7 +463,7 @@ export function SpreadsheetView() {
 
         {/* Spreadsheet table */}
         <div className="flex-1 overflow-auto max-w-full">
-          <table className="border-collapse" style={{ minWidth: '100%' }}>
+          <table className="border-collapse" style={{ minWidth: "100%" }}>
             <thead>
               <tr className="bg-charcoal-900 shadow-inner">
                 <th className="border border-charcoal-800 px-4 py-2 text-left text-charcoal-100 shadow-inner">

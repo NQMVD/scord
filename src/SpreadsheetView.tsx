@@ -347,11 +347,10 @@ export function SpreadsheetView() {
   };
 
   return (
-    <div className="flex gap-6 h-full">
+    <div className="flex gap-6 h-full max-w-full">
       {/* Main spreadsheet area */}
-      <div className="flex-1 charcoal-surface rounded-lg p-6">
-        {/* <div className="flex-1 charcoal-surface rounded-lg p-6"> */}
-        <div className="mb-6">
+      <div className="flex-1 charcoal-surface rounded-lg p-6 flex flex-col min-w-0">
+        <div className="mb-6 flex-shrink-0">
           <h2 className="text-2xl font-bold charcoal-glow-text mb-4">
             Contestant Data
           </h2>
@@ -446,8 +445,8 @@ export function SpreadsheetView() {
         </div>
 
         {/* Spreadsheet table */}
-        <div className="overflow-auto">
-          <table className="w-full border-collapse">
+        <div className="flex-1 overflow-auto max-w-full">
+          <table className="border-collapse" style={{ minWidth: '100%' }}>
             <thead>
               <tr className="bg-charcoal-900 shadow-inner">
                 <th className="border border-charcoal-800 px-4 py-2 text-left text-charcoal-100 shadow-inner">
@@ -693,12 +692,12 @@ export function SpreadsheetView() {
       </div>
 
       {/* Results panel */}
-      <div className="w-80 charcoal-surface rounded-lg p-6">
-        <h3 className="text-xl font-bold charcoal-glow-text mb-4">
+      <div className="w-80 charcoal-surface rounded-lg p-6 flex flex-col">
+        <h3 className="text-xl font-bold charcoal-glow-text mb-4 flex-shrink-0">
           Scoring Results
         </h3>
 
-        <div className="space-y-4">
+        <div className="space-y-4 flex-1 overflow-auto">
           {scoreResults.map((result, index) => (
             <div
               key={result.contestantId}

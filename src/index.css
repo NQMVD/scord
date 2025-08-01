@@ -173,6 +173,26 @@ th {
   white-space: normal !important;
 }
 
+/* Results panel improvements */
+.bg-charcoal-900.rounded-lg.p-4 {
+  min-width: 16rem !important; /* appropriately sized result cards */
+  max-width: 18rem !important; /* prevent cards from getting too wide */
+}
+
+.bg-charcoal-900.rounded-lg.p-4 .text-sm {
+  word-wrap: break-word !important;
+  white-space: normal !important;
+  line-height: 1.4 !important;
+}
+
+/* Make Actions column narrower */
+th:last-child,
+td:last-child {
+  width: 7rem !important; /* narrow Actions column - fits "Actions" text */
+  min-width: 7rem !important;
+  max-width: 7rem !important;
+}
+
 /* Charcoal theme utility classes */
 .charcoal-surface {
   background: linear-gradient(

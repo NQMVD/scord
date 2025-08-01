@@ -91,6 +91,7 @@ body {
 button,
 input,
 select,
+label,
 td,
 th {
   font-size: 1rem !important; /* ensures buttons, inputs, and table cells get consistent sizing */
@@ -99,20 +100,37 @@ th {
 /* Vertical alignment adjustment for PP Supply Sans - targeted elements only */
 button,
 input,
+label,
 select {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-button {
+/* Apply padding adjustment to control buttons and inputs, excluding table header elements */
+button:not(th button),
+input:not(th input) {
   text-align: center !important;
   padding-top: 0.625rem !important; /* slightly more than py-2's 0.5rem */
   padding-bottom: 0.375rem !important; /* slightly less than py-2's 0.5rem */
 }
 
-input {
-  text-align: left;
+/* Inputs should be left-aligned */
+input:not(th input) {
+  text-align: left !important;
+}
+
+/* Keep table header buttons with minimal padding */
+th button,
+th input {
+  padding: 0.125rem 0.25rem !important; /* very small vertical padding for table headers */
+}
+
+/* Remove default browser focus outline only */
+input:focus,
+button:focus,
+select:focus {
+  outline: none !important;
 }
 
 /* Charcoal theme utility classes */

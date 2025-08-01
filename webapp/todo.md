@@ -1,0 +1,22 @@
+- [x] when theres too many properties to fit on the page, the table view only should become scrollable, not the entire page. the cards in the results panel should not be flexible either, the name should not wrap on a second line if its less than like 12 letters
+- [x] the font seems offset on the y axis upward
+- [x] increase the font size for small text
+    - [x] remove bold style from all but the name in the column headers
+- [x] remove blue border for focused elements
+- [ ] focusing a cell button using tab should automatically open the input for editing it, then pressing tab again while still editing open the next one, when reaching the last one of the row, it should open the first on on the next row
+- [x] remove up and down adjustments controls in number inputs
+- [x] headers for both panels should be the same
+- [x] the ranking and the name in the result cards are hard to differ on first glance, improve that please
+- [x] chooser text align (select)
+- [ ] icons
+    - [x] make icons in buttons bigger
+    - [ ] add award icon also to winner in results, prepend to score
+    - [ ] adjust icons for websites colors
+        - [x] increase translucence on bright parts
+        - [ ] increase brightness on dark parts
+- [ ] move export controls to the right
+    - [ ] vertical list is too much, only two rows
+    - [ ] join export buttons and join selector and import button
+- [ ] add link to separate page which explains how to use and how it works
+
+- [ ] remove backend part

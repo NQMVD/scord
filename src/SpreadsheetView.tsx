@@ -356,80 +356,91 @@ export function SpreadsheetView() {
           </h2>
 
           {/* Controls */}
-          <div className="flex flex-wrap gap-4 mb-4">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Contestant name"
-                value={newContestantName}
-                onChange={(e) => setNewContestantName(e.target.value)}
-                className="px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 placeholder-charcoal-400 transition-all duration-300 hover:shadow-glow focus:shadow-glow-hover"
-                onKeyDown={(e) => e.key === "Enter" && handleAddContestant()}
-              />
-              <button
-                onClick={handleAddContestant}
-                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element"
-              >
-                Add Contestant
-              </button>
-            </div>
-
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Property name"
-                value={newPropertyName}
-                onChange={(e) => setNewPropertyName(e.target.value)}
-                className="px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 placeholder-charcoal-400 transition-all duration-300 hover:shadow-glow focus:shadow-glow-hover"
-              />
-              <input
-                type="number"
-                placeholder="Weight"
-                value={newPropertyWeight}
-                onChange={(e) => setNewPropertyWeight(Number(e.target.value))}
-                className="w-20 px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 transition-all duration-300 hover:shadow-glow focus:shadow-glow-hover"
-              />
-              <label className="flex items-center gap-2 text-charcoal-300">
+          <div className="flex justify-between items-start mb-4">
+            {/* Left side - Input controls */}
+            <div className="space-y-4">
+              {/* Contestant controls */}
+              <div className="flex gap-2 items-center">
+                <span className="text-charcoal-300 w-12">New:</span>
                 <input
-                  type="checkbox"
-                  checked={newPropertyHigherIsBetter}
-                  onChange={(e) =>
-                    setNewPropertyHigherIsBetter(e.target.checked)
-                  }
-                  className="rounded"
+                  type="text"
+                  placeholder="Contestant name"
+                  value={newContestantName}
+                  onChange={(e) => setNewContestantName(e.target.value)}
+                  className="px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 placeholder-charcoal-400 transition-all duration-300 hover:shadow-glow focus:shadow-glow-hover"
+                  onKeyDown={(e) => e.key === "Enter" && handleAddContestant()}
                 />
-                Higher is better
-              </label>
-              <button
-                onClick={handleAddProperty}
-                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element"
-              >
-                Add Property
-              </button>
+                <button
+                  onClick={handleAddContestant}
+                  className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element"
+                >
+                  Add Contestant
+                </button>
+              </div>
+
+              {/* Property controls */}
+              <div className="flex gap-2 items-center flex-wrap">
+                <span className="text-charcoal-300 w-12">New:</span>
+                <input
+                  type="text"
+                  placeholder="Property name"
+                  value={newPropertyName}
+                  onChange={(e) => setNewPropertyName(e.target.value)}
+                  className="px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 placeholder-charcoal-400 transition-all duration-300 hover:shadow-glow focus:shadow-glow-hover"
+                />
+                <input
+                  type="number"
+                  placeholder="Weight"
+                  value={newPropertyWeight}
+                  onChange={(e) => setNewPropertyWeight(Number(e.target.value))}
+                  className="w-20 px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 transition-all duration-300 hover:shadow-glow focus:shadow-glow-hover"
+                />
+                <label className="flex items-center gap-2 text-charcoal-300">
+                  <input
+                    type="checkbox"
+                    checked={newPropertyHigherIsBetter}
+                    onChange={(e) =>
+                      setNewPropertyHigherIsBetter(e.target.checked)
+                    }
+                    className="rounded"
+                  />
+                  Higher is better
+                </label>
+                <button
+                  onClick={handleAddProperty}
+                  className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element"
+                >
+                  Add Property
+                </button>
+              </div>
             </div>
 
-            <div className="flex gap-2 items-center">
-              <select
-                value={exportFormat}
-                onChange={(e) =>
-                  setExportFormat(e.target.value as ExportFormat)
-                }
-                className="px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 transition-all duration-300 hover:shadow-glow"
-              >
-                <option value="json">JSON</option>
-                <option value="csv">CSV</option>
-              </select>
+            {/* Right side - Import/Export controls */}
+            <div className="flex flex-col gap-2 items-end">
+              <div className="flex gap-2 items-center">
+                <span className="text-charcoal-300">Format:</span>
+                <select
+                  value={exportFormat}
+                  onChange={(e) =>
+                    setExportFormat(e.target.value as ExportFormat)
+                  }
+                  className="px-3 py-2 bg-charcoal-950 border border-charcoal-800 rounded text-charcoal-100 transition-all duration-300 hover:shadow-glow"
+                >
+                  <option value="json">JSON</option>
+                  <option value="csv">CSV</option>
+                </select>
+              </div>
               <button
                 onClick={handleExportData}
-                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element"
+                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element bg-charcoal-800"
               >
-                Export Data
+                Export <span className="text-charcoal-400">Data</span>
               </button>
               <button
                 onClick={handleExportResults}
-                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element"
+                className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element bg-charcoal-700"
               >
-                Export Results
+                Export <span className="text-charcoal-400">Results</span>
               </button>
               <label className="px-4 py-2 charcoal-surface text-charcoal-100 rounded interactive-element cursor-pointer">
                 Import

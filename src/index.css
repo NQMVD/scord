@@ -108,11 +108,15 @@ select {
 }
 
 /* Apply padding adjustment to control buttons and inputs, excluding table header elements */
-button:not(th button),
-input:not(th input) {
+button:not(th button) {
   text-align: center !important;
   padding-top: 0.625rem !important; /* slightly more than py-2's 0.5rem */
   padding-bottom: 0.375rem !important; /* slightly less than py-2's 0.5rem */
+}
+input:not(th input) {
+  text-align: center !important;
+  padding-top: 0.6rem !important; /* slightly more than py-2's 0.5rem */
+  padding-bottom: 0.4rem !important; /* slightly less than py-2's 0.5rem */
 }
 
 /* Inputs should be left-aligned */

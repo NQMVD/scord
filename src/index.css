@@ -144,6 +144,18 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Make table header elements not bold except for the main property name */
+th .text-xs,
+th button:not(:first-child),
+th span {
+  font-weight: 300 !important;
+}
+
+/* Make delete buttons smaller like weight text */
+th button:last-child {
+  font-size: 0.85rem !important;
+}
+
 /* Charcoal theme utility classes */
 .charcoal-surface {
   background: linear-gradient(

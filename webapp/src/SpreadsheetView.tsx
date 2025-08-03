@@ -1,14 +1,25 @@
-import { useQuery, useMutation } from "convex/react";
-import { api } from "../convex/_generated/api";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { toast } from "sonner";
-import { Id } from "../convex/_generated/dataModel";
 import Files from "./assets/glass icons/icons/files";
 import AwardTranslucent from "./assets/glass icons/icons/award-translucent";
 import CloudDownload from "./assets/glass icons/icons/cloud-download";
 
+// Local types to replace Convex-generated ones
+interface Contestant {
+  _id: string;
+  name: string;
+  values: Record<string, number>;
+}
+
+interface Property {
+  _id: string;
+  name: string;
+  weight: number;
+  higherIsBetter: boolean;
+}
+
 interface ScoreResult {
-  contestantId: Id<"contestants">;
+  contestantId: string;
   name: string;
   score: number;
   bestProperties: string[];
@@ -16,21 +27,34 @@ interface ScoreResult {
 
 type ExportFormat = "json" | "csv";
 
+// Local storage keys
+const CONTESTANTS_KEY = "scord-contestants";
+const PROPERTIES_KEY = "scord-properties";
+
+// Helper functions for localStorage
+const loadFromStorage = <T,>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+};
+
+const saveToStorage = <T,>(key: string, value: T): void => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error(`Failed to save to localStorage:`, error);
+  }
+};
+
 export function SpreadsheetView() {
-  const contestants = useQuery(api.contestants.listContestants) || [];
-  const properties = useQuery(api.contestants.listProperties) || [];
+  // Local state for data
+  const [contestants, setContestants] = useState<Contestant[]>([]);
+  const [properties, setProperties] = useState<Property[]>([]);
 
-  const addContestant = useMutation(api.contestants.addContestant);
-  const addProperty = useMutation(api.contestants.addProperty);
-  const updateContestantName = useMutation(
-    api.contestants.updateContestantName,
-  );
-  const updateProperty = useMutation(api.contestants.updateProperty);
-  const updateValue = useMutation(api.contestants.updateContestantValue);
-  const deleteContestant = useMutation(api.contestants.deleteContestant);
-  const deleteProperty = useMutation(api.contestants.deleteProperty);
-  const importData = useMutation(api.contestants.importData);
-
+  // UI state
   const [newContestantName, setNewContestantName] = useState("");
   const [newPropertyName, setNewPropertyName] = useState("");
   const [newPropertyWeight, setNewPropertyWeight] = useState(1);
@@ -39,6 +63,24 @@ export function SpreadsheetView() {
   const [editingCell, setEditingCell] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const [exportFormat, setExportFormat] = useState<ExportFormat>("json");
+
+  // Load data from localStorage on mount
+  useEffect(() => {
+    setContestants(loadFromStorage(CONTESTANTS_KEY, []));
+    setProperties(loadFromStorage(PROPERTIES_KEY, []));
+  }, []);
+
+  // Save to localStorage whenever data changes
+  useEffect(() => {
+    saveToStorage(CONTESTANTS_KEY, contestants);
+  }, [contestants]);
+
+  useEffect(() => {
+    saveToStorage(PROPERTIES_KEY, properties);
+  }, [properties]);
+
+  // Generate unique IDs
+  const generateId = () => Math.random().toString(36).substring(2, 15);
 
   // Calculate scores and find best properties
   const scoreResults: ScoreResult[] = useMemo(() => {
@@ -124,10 +166,16 @@ export function SpreadsheetView() {
     return results.sort((a, b) => b.score - a.score);
   }, [contestants, properties]);
 
-  const handleAddContestant = async () => {
+  // Data manipulation functions
+  const handleAddContestant = () => {
     if (!newContestantName.trim()) return;
     try {
-      await addContestant({ name: newContestantName.trim() });
+      const newContestant: Contestant = {
+        _id: generateId(),
+        name: newContestantName.trim(),
+        values: {},
+      };
+      setContestants((prev) => [...prev, newContestant]);
       setNewContestantName("");
       toast.success("Contestant added");
     } catch (error) {
@@ -135,14 +183,16 @@ export function SpreadsheetView() {
     }
   };
 
-  const handleAddProperty = async () => {
+  const handleAddProperty = () => {
     if (!newPropertyName.trim()) return;
     try {
-      await addProperty({
+      const newProperty: Property = {
+        _id: generateId(),
         name: newPropertyName.trim(),
         weight: newPropertyWeight,
         higherIsBetter: newPropertyHigherIsBetter,
-      });
+      };
+      setProperties((prev) => [...prev, newProperty]);
       setNewPropertyName("");
       setNewPropertyWeight(1);
       setNewPropertyHigherIsBetter(true);
@@ -163,7 +213,7 @@ export function SpreadsheetView() {
     setEditValue(currentValue?.toString() || "");
   };
 
-  const handleCellSave = async (
+  const handleCellSave = (
     type: "contestant" | "property" | "value",
     id: string,
     propertyId?: string,
@@ -175,10 +225,11 @@ export function SpreadsheetView() {
           toast.error("Name cannot be empty");
           return;
         }
-        await updateContestantName({
-          contestantId: id as Id<"contestants">,
-          name: editValue.trim(),
-        });
+        setContestants((prev) =>
+          prev.map((c) =>
+            c._id === id ? { ...c, name: editValue.trim() } : c,
+          ),
+        );
       } else if (type === "property" && field) {
         const actualId = id.replace("-weight", "");
         const property = properties.find((p) => p._id === actualId);
@@ -189,24 +240,20 @@ export function SpreadsheetView() {
             toast.error("Name cannot be empty");
             return;
           }
-          await updateProperty({
-            propertyId: actualId as Id<"properties">,
-            name: editValue.trim(),
-            weight: property.weight,
-            higherIsBetter: property.higherIsBetter,
-          });
+          setProperties((prev) =>
+            prev.map((p) =>
+              p._id === actualId ? { ...p, name: editValue.trim() } : p,
+            ),
+          );
         } else if (field === "weight") {
           const weight = parseFloat(editValue);
           if (isNaN(weight) || weight <= 0) {
             toast.error("Weight must be a positive number");
             return;
           }
-          await updateProperty({
-            propertyId: actualId as Id<"properties">,
-            name: property.name,
-            weight,
-            higherIsBetter: property.higherIsBetter,
-          });
+          setProperties((prev) =>
+            prev.map((p) => (p._id === actualId ? { ...p, weight } : p)),
+          );
         }
       } else if (type === "value" && propertyId) {
         const value = parseFloat(editValue);
@@ -214,11 +261,13 @@ export function SpreadsheetView() {
           toast.error("Invalid number");
           return;
         }
-        await updateValue({
-          contestantId: id as Id<"contestants">,
-          propertyId,
-          value,
-        });
+        setContestants((prev) =>
+          prev.map((c) =>
+            c._id === id
+              ? { ...c, values: { ...c.values, [propertyId]: value } }
+              : c,
+          ),
+        );
       }
 
       setEditingCell(null);
@@ -228,21 +277,39 @@ export function SpreadsheetView() {
     }
   };
 
-  const togglePropertyDirection = async (propertyId: Id<"properties">) => {
+  const togglePropertyDirection = (propertyId: string) => {
     const property = properties.find((p) => p._id === propertyId);
     if (!property) return;
 
     try {
-      await updateProperty({
-        propertyId,
-        name: property.name,
-        weight: property.weight,
-        higherIsBetter: !property.higherIsBetter,
-      });
+      setProperties((prev) =>
+        prev.map((p) =>
+          p._id === propertyId
+            ? { ...p, higherIsBetter: !p.higherIsBetter }
+            : p,
+        ),
+      );
       toast.success("Direction updated");
     } catch (error) {
       toast.error("Failed to update direction");
     }
+  };
+
+  const deleteContestant = (contestantId: string) => {
+    setContestants((prev) => prev.filter((c) => c._id !== contestantId));
+    toast.success("Contestant deleted");
+  };
+
+  const deleteProperty = (propertyId: string) => {
+    setProperties((prev) => prev.filter((p) => p._id !== propertyId));
+    // Also remove values for this property from all contestants
+    setContestants((prev) =>
+      prev.map((c) => {
+        const { [propertyId]: removed, ...restValues } = c.values;
+        return { ...c, values: restValues };
+      }),
+    );
+    toast.success("Property deleted");
   };
 
   const exportToCSV = (data: any[], filename: string) => {
@@ -336,10 +403,49 @@ export function SpreadsheetView() {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = async (e) => {
+    reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target?.result as string);
-        await importData(data);
+        
+        // Create new contestants with generated IDs
+        if (data.contestants && Array.isArray(data.contestants)) {
+          const newContestants: Contestant[] = data.contestants.map((c: any) => ({
+            _id: generateId(),
+            name: c.name || "Unnamed",
+            values: {},
+          }));
+          setContestants(newContestants);
+        }
+
+        // Create new properties with generated IDs
+        if (data.properties && Array.isArray(data.properties)) {
+          const newProperties: Property[] = data.properties.map((p: any) => ({
+            _id: generateId(),
+            name: p.name || "Unnamed Property",
+            weight: p.weight || 1,
+            higherIsBetter: p.higherIsBetter !== false,
+          }));
+          setProperties(newProperties);
+
+          // Update contestants with values for the new properties
+          setContestants((prevContestants) =>
+            prevContestants.map((contestant, cIndex) => {
+              const importedContestant = data.contestants[cIndex];
+              if (!importedContestant?.values) return contestant;
+
+              const newValues: Record<string, number> = {};
+              newProperties.forEach((property) => {
+                const originalProperty = data.properties.find((p: any) => p.name === property.name);
+                if (originalProperty && importedContestant.values[originalProperty.name] !== undefined) {
+                  newValues[property._id] = importedContestant.values[originalProperty.name];
+                }
+              });
+
+              return { ...contestant, values: newValues };
+            }),
+          );
+        }
+
         toast.success("Data imported");
       } catch (error) {
         toast.error("Failed to import data");
@@ -579,9 +685,7 @@ export function SpreadsheetView() {
                         </div>
 
                         <button
-                          onClick={() =>
-                            deleteProperty({ propertyId: property._id })
-                          }
+                          onClick={() => deleteProperty(property._id)}
                           className="text-xs text-charcoal-500 hover:text-charcoal-400 transition-colors"
                         >
                           Delete
@@ -692,9 +796,7 @@ export function SpreadsheetView() {
                     })}
                     <td className="border border-charcoal-800 px-4 py-2 text-center">
                       <button
-                        onClick={() =>
-                          deleteContestant({ contestantId: contestant._id })
-                        }
+                        onClick={() => deleteContestant(contestant._id)}
                         className="text-charcoal-500 hover:text-charcoal-400 text-sm transition-colors"
                       >
                         Delete

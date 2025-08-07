@@ -1,0 +1,61 @@
+{
+  "properties": [
+    {
+      "higherIsBetter": true,
+      "name": "Speed",
+      "weight": 2.0
+    },
+    {
+      "higherIsBetter": true,
+      "name": "Power",
+      "weight": 1.5
+    },
+    {
+      "higherIsBetter": false,
+      "name": "Cost",
+      "weight": 1.0
+    }
+  ],
+  "contestants": [
+    {
+      "values": {
+        "Power": 80.0,
+        "Cost": 50.0,
+        "Speed": 100.0
+      },
+      "name": "Alpha Tester"
+    },
+    {
+      "values": {
+        "Power": 60.0,
+        "Cost": 70.0,
+        "Speed": 120.0
+      },
+      "name": "Beta Runner"
+    },
+    {
+      "values": {
+        "Power": 100.0,
+        "Cost": 90.0,
+        "Speed": 90.0
+      },
+      "name": "Gamma Force"
+    },
+    {
+      "values": {
+        "Power": 90.0,
+        "Cost": 60.0,
+        "Speed": 110.0
+      },
+      "name": "Delta Prime"
+    },
+    {
+      "values": {
+        "Power": 70.0,
+        "Cost": 80.0,
+        "Speed": 130.0
+      },
+      "name": "Epsilon Max"
+    }
+  ]
+}

@@ -1,0 +1,436 @@
+{
+  "contestants": [
+    {
+      "name": "BR Class 40 'Whistler'",
+      "values": {
+        "Speed": 145,
+        "Power": 2000,
+        "Tractive Effort": 267,
+        "Weight": 133,
+        "Cost": 28000,
+        "Running Cost": 1890,
+        "Reliability": 78,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "EMD F7A",
+      "values": {
+        "Speed": 128,
+        "Power": 1500,
+        "Tractive Effort": 267,
+        "Weight": 118,
+        "Cost": 32000,
+        "Running Cost": 1680,
+        "Reliability": 85,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "GE Genesis P42DC",
+      "values": {
+        "Speed": 177,
+        "Power": 4200,
+        "Tractive Effort": 267,
+        "Weight": 122,
+        "Cost": 65000,
+        "Running Cost": 3200,
+        "Reliability": 92,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "TGV Duplex",
+      "values": {
+        "Speed": 320,
+        "Power": 9280,
+        "Tractive Effort": 300,
+        "Weight": 380,
+        "Cost": 180000,
+        "Running Cost": 8500,
+        "Reliability": 95,
+        "Cargo Capacity": 545
+      }
+    },
+    {
+      "name": "ICE 3",
+      "values": {
+        "Speed": 330,
+        "Power": 8000,
+        "Tractive Effort": 300,
+        "Weight": 409,
+        "Cost": 165000,
+        "Running Cost": 7800,
+        "Reliability": 94,
+        "Cargo Capacity": 460
+      }
+    },
+    {
+      "name": "Shinkansen E5",
+      "values": {
+        "Speed": 320,
+        "Power": 10040,
+        "Tractive Effort": 300,
+        "Weight": 453,
+        "Cost": 195000,
+        "Running Cost": 9200,
+        "Reliability": 98,
+        "Cargo Capacity": 731
+      }
+    },
+    {
+      "name": "BR Class 91",
+      "values": {
+        "Speed": 225,
+        "Power": 6450,
+        "Tractive Effort": 267,
+        "Weight": 84,
+        "Cost": 95000,
+        "Running Cost": 4200,
+        "Reliability": 89,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "SNCF AGV",
+      "values": {
+        "Speed": 360,
+        "Power": 11000,
+        "Tractive Effort": 300,
+        "Weight": 385,
+        "Cost": 210000,
+        "Running Cost": 9800,
+        "Reliability": 96,
+        "Cargo Capacity": 650
+      }
+    },
+    {
+      "name": "EMD SD70ACe",
+      "values": {
+        "Speed": 120,
+        "Power": 4300,
+        "Tractive Effort": 534,
+        "Weight": 207,
+        "Cost": 58000,
+        "Running Cost": 3400,
+        "Reliability": 88,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "GE ES44AC",
+      "values": {
+        "Speed": 120,
+        "Power": 4400,
+        "Tractive Effort": 534,
+        "Weight": 207,
+        "Cost": 62000,
+        "Running Cost": 3600,
+        "Reliability": 87,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "Siemens Vectron",
+      "values": {
+        "Speed": 200,
+        "Power": 6400,
+        "Tractive Effort": 300,
+        "Weight": 87,
+        "Cost": 85000,
+        "Running Cost": 4100,
+        "Reliability": 93,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "TRAXX F140 MS",
+      "values": {
+        "Speed": 140,
+        "Power": 5600,
+        "Tractive Effort": 300,
+        "Weight": 84,
+        "Cost": 72000,
+        "Running Cost": 3800,
+        "Reliability": 91,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "Alstom Prima",
+      "values": {
+        "Speed": 140,
+        "Power": 5500,
+        "Tractive Effort": 320,
+        "Weight": 87,
+        "Cost": 68000,
+        "Running Cost": 3700,
+        "Reliability": 90,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "BR Class 395 Javelin",
+      "values": {
+        "Speed": 225,
+        "Power": 1420,
+        "Tractive Effort": 180,
+        "Weight": 144,
+        "Cost": 45000,
+        "Running Cost": 2800,
+        "Reliability": 92,
+        "Cargo Capacity": 348
+      }
+    },
+    {
+      "name": "Pendolino ETR 610",
+      "values": {
+        "Speed": 250,
+        "Power": 5500,
+        "Tractive Effort": 250,
+        "Weight": 361,
+        "Cost": 125000,
+        "Running Cost": 6200,
+        "Reliability": 91,
+        "Cargo Capacity": 459
+      }
+    },
+    {
+      "name": "AVE S-103",
+      "values": {
+        "Speed": 350,
+        "Power": 8800,
+        "Tractive Effort": 300,
+        "Weight": 388,
+        "Cost": 175000,
+        "Running Cost": 8200,
+        "Reliability": 94,
+        "Cargo Capacity": 404
+      }
+    },
+    {
+      "name": "CRH380A",
+      "values": {
+        "Speed": 380,
+        "Power": 9280,
+        "Tractive Effort": 300,
+        "Weight": 427,
+        "Cost": 185000,
+        "Running Cost": 8600,
+        "Reliability": 93,
+        "Cargo Capacity": 494
+      }
+    },
+    {
+      "name": "JR East E7",
+      "values": {
+        "Speed": 260,
+        "Power": 7040,
+        "Tractive Effort": 300,
+        "Weight": 540,
+        "Cost": 155000,
+        "Running Cost": 7200,
+        "Reliability": 97,
+        "Cargo Capacity": 924
+      }
+    },
+    {
+      "name": "EMU 500 Series",
+      "values": {
+        "Speed": 300,
+        "Power": 13200,
+        "Tractive Effort": 300,
+        "Weight": 708,
+        "Cost": 220000,
+        "Running Cost": 10500,
+        "Reliability": 96,
+        "Cargo Capacity": 1323
+      }
+    },
+    {
+      "name": "Acela Express",
+      "values": {
+        "Speed": 241,
+        "Power": 6000,
+        "Tractive Effort": 267,
+        "Weight": 563,
+        "Cost": 140000,
+        "Running Cost": 6800,
+        "Reliability": 86,
+        "Cargo Capacity": 304
+      }
+    },
+    {
+      "name": "Virgin Pendolino",
+      "values": {
+        "Speed": 225,
+        "Power": 5200,
+        "Tractive Effort": 250,
+        "Weight": 385,
+        "Cost": 115000,
+        "Running Cost": 5800,
+        "Reliability": 89,
+        "Cargo Capacity": 436
+      }
+    },
+    {
+      "name": "Eurostar e320",
+      "values": {
+        "Speed": 320,
+        "Power": 16000,
+        "Tractive Effort": 300,
+        "Weight": 714,
+        "Cost": 250000,
+        "Running Cost": 12000,
+        "Reliability": 95,
+        "Cargo Capacity": 894
+      }
+    },
+    {
+      "name": "DB ICE 4",
+      "values": {
+        "Speed": 250,
+        "Power": 7000,
+        "Tractive Effort": 300,
+        "Weight": 346,
+        "Cost": 145000,
+        "Running Cost": 6900,
+        "Reliability": 93,
+        "Cargo Capacity": 830
+      }
+    },
+    {
+      "name": "SNCF TER 2N",
+      "values": {
+        "Speed": 160,
+        "Power": 2200,
+        "Tractive Effort": 200,
+        "Weight": 142,
+        "Cost": 38000,
+        "Running Cost": 2400,
+        "Reliability": 88,
+        "Cargo Capacity": 245
+      }
+    },
+    {
+      "name": "Stadler FLIRT",
+      "values": {
+        "Speed": 160,
+        "Power": 2400,
+        "Tractive Effort": 180,
+        "Weight": 108,
+        "Cost": 42000,
+        "Running Cost": 2600,
+        "Reliability": 92,
+        "Cargo Capacity": 300
+      }
+    },
+    {
+      "name": "Siemens Desiro",
+      "values": {
+        "Speed": 160,
+        "Power": 1600,
+        "Tractive Effort": 160,
+        "Weight": 68,
+        "Cost": 28000,
+        "Running Cost": 1900,
+        "Reliability": 90,
+        "Cargo Capacity": 150
+      }
+    },
+    {
+      "name": "Alstom Coradia",
+      "values": {
+        "Speed": 160,
+        "Power": 1800,
+        "Tractive Effort": 170,
+        "Weight": 78,
+        "Cost": 32000,
+        "Running Cost": 2100,
+        "Reliability": 89,
+        "Cargo Capacity": 180
+      }
+    },
+    {
+      "name": "EMD GP40",
+      "values": {
+        "Speed": 105,
+        "Power": 3000,
+        "Tractive Effort": 267,
+        "Weight": 125,
+        "Cost": 35000,
+        "Running Cost": 2200,
+        "Reliability": 82,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "GE U30C",
+      "values": {
+        "Speed": 105,
+        "Power": 3000,
+        "Tractive Effort": 356,
+        "Weight": 181,
+        "Cost": 38000,
+        "Running Cost": 2400,
+        "Reliability": 79,
+        "Cargo Capacity": 0
+      }
+    },
+    {
+      "name": "EMD F59PHI",
+      "values": {
+        "Speed": 177,
+        "Power": 3200,
+        "Tractive Effort": 267,
+        "Weight": 122,
+        "Cost": 48000,
+        "Running Cost": 2800,
+        "Reliability": 87,
+        "Cargo Capacity": 0
+      }
+    }
+  ],
+  "properties": [
+    {
+      "name": "Speed",
+      "weight": 2.5,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Power",
+      "weight": 2.0,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Tractive Effort",
+      "weight": 1.5,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Weight",
+      "weight": 0.8,
+      "higherIsBetter": false
+    },
+    {
+      "name": "Cost",
+      "weight": 1.2,
+      "higherIsBetter": false
+    },
+    {
+      "name": "Running Cost",
+      "weight": 1.8,
+      "higherIsBetter": false
+    },
+    {
+      "name": "Reliability",
+      "weight": 3.0,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Cargo Capacity",
+      "weight": 1.0,
+      "higherIsBetter": true
+    }
+  ]
+}

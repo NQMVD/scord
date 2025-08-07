@@ -1,0 +1,356 @@
+{
+  "contestants": [
+    {
+      "name": "ASUS ROG Strix G15",
+      "values": {
+        "CPU Score": 8500,
+        "GPU Score": 9200,
+        "RAM": 16,
+        "Storage Speed": 3500,
+        "Display Quality": 85,
+        "Battery Life": 4.5,
+        "Weight": 2.3,
+        "Price": 1299,
+        "Build Quality": 88,
+        "Cooling": 82
+      }
+    },
+    {
+      "name": "MSI GE76 Raider",
+      "values": {
+        "CPU Score": 9800,
+        "GPU Score": 11500,
+        "RAM": 32,
+        "Storage Speed": 4200,
+        "Display Quality": 92,
+        "Battery Life": 3.2,
+        "Weight": 2.9,
+        "Price": 2199,
+        "Build Quality": 90,
+        "Cooling": 95
+      }
+    },
+    {
+      "name": "Razer Blade 15",
+      "values": {
+        "CPU Score": 8900,
+        "GPU Score": 10200,
+        "RAM": 16,
+        "Storage Speed": 3800,
+        "Display Quality": 94,
+        "Battery Life": 6.1,
+        "Weight": 2.0,
+        "Price": 1899,
+        "Build Quality": 96,
+        "Cooling": 78
+      }
+    },
+    {
+      "name": "Alienware m15 R7",
+      "values": {
+        "CPU Score": 9200,
+        "GPU Score": 10800,
+        "RAM": 16,
+        "Storage Speed": 3900,
+        "Display Quality": 89,
+        "Battery Life": 4.8,
+        "Weight": 2.4,
+        "Price": 1799,
+        "Build Quality": 92,
+        "Cooling": 88
+      }
+    },
+    {
+      "name": "HP Omen 17",
+      "values": {
+        "CPU Score": 8200,
+        "GPU Score": 8800,
+        "RAM": 16,
+        "Storage Speed": 3200,
+        "Display Quality": 81,
+        "Battery Life": 5.2,
+        "Weight": 2.8,
+        "Price": 1099,
+        "Build Quality": 79,
+        "Cooling": 75
+      }
+    },
+    {
+      "name": "Lenovo Legion 7",
+      "values": {
+        "CPU Score": 9500,
+        "GPU Score": 11200,
+        "RAM": 32,
+        "Storage Speed": 4100,
+        "Display Quality": 90,
+        "Battery Life": 4.0,
+        "Weight": 2.5,
+        "Price": 1999,
+        "Build Quality": 87,
+        "Cooling": 91
+      }
+    },
+    {
+      "name": "ASUS TUF Gaming A15",
+      "values": {
+        "CPU Score": 7800,
+        "GPU Score": 8200,
+        "RAM": 16,
+        "Storage Speed": 2800,
+        "Display Quality": 76,
+        "Battery Life": 7.5,
+        "Weight": 2.3,
+        "Price": 899,
+        "Build Quality": 82,
+        "Cooling": 73
+      }
+    },
+    {
+      "name": "Gigabyte AERO 15",
+      "values": {
+        "CPU Score": 8700,
+        "GPU Score": 9500,
+        "RAM": 16,
+        "Storage Speed": 3600,
+        "Display Quality": 96,
+        "Battery Life": 8.2,
+        "Weight": 2.0,
+        "Price": 1699,
+        "Build Quality": 85,
+        "Cooling": 80
+      }
+    },
+    {
+      "name": "MSI Stealth 15M",
+      "values": {
+        "CPU Score": 8100,
+        "GPU Score": 8600,
+        "RAM": 16,
+        "Storage Speed": 3300,
+        "Display Quality": 83,
+        "Battery Life": 6.8,
+        "Weight": 1.7,
+        "Price": 1399,
+        "Build Quality": 84,
+        "Cooling": 71
+      }
+    },
+    {
+      "name": "Acer Predator Helios 300",
+      "values": {
+        "CPU Score": 8400,
+        "GPU Score": 9000,
+        "RAM": 16,
+        "Storage Speed": 3400,
+        "Display Quality": 80,
+        "Battery Life": 4.9,
+        "Weight": 2.2,
+        "Price": 1199,
+        "Build Quality": 81,
+        "Cooling": 77
+      }
+    },
+    {
+      "name": "Origin Millennium",
+      "values": {
+        "CPU Score": 11200,
+        "GPU Score": 13500,
+        "RAM": 64,
+        "Storage Speed": 5200,
+        "Display Quality": 98,
+        "Battery Life": 2.1,
+        "Weight": 4.2,
+        "Price": 4999,
+        "Build Quality": 95,
+        "Cooling": 98
+      }
+    },
+    {
+      "name": "Framework Laptop",
+      "values": {
+        "CPU Score": 7200,
+        "GPU Score": 6800,
+        "RAM": 16,
+        "Storage Speed": 3100,
+        "Display Quality": 87,
+        "Battery Life": 9.5,
+        "Weight": 1.3,
+        "Price": 1049,
+        "Build Quality": 92,
+        "Cooling": 68
+      }
+    },
+    {
+      "name": "System76 Oryx Pro",
+      "values": {
+        "CPU Score": 8800,
+        "GPU Score": 9800,
+        "RAM": 32,
+        "Storage Speed": 3700,
+        "Display Quality": 85,
+        "Battery Life": 5.5,
+        "Weight": 2.4,
+        "Price": 1599,
+        "Build Quality": 88,
+        "Cooling": 84
+      }
+    },
+    {
+      "name": "Clevo P870DM3",
+      "values": {
+        "CPU Score": 10500,
+        "GPU Score": 12200,
+        "RAM": 32,
+        "Storage Speed": 4500,
+        "Display Quality": 88,
+        "Battery Life": 2.8,
+        "Weight": 4.1,
+        "Price": 2799,
+        "Build Quality": 83,
+        "Cooling": 93
+      }
+    },
+    {
+      "name": "Apple MacBook Pro M2",
+      "values": {
+        "CPU Score": 9100,
+        "GPU Score": 8900,
+        "RAM": 16,
+        "Storage Speed": 4800,
+        "Display Quality": 99,
+        "Battery Life": 12.5,
+        "Weight": 1.6,
+        "Price": 2499,
+        "Build Quality": 98,
+        "Cooling": 85
+      }
+    },
+    {
+      "name": "Dell XPS 15",
+      "values": {
+        "CPU Score": 8600,
+        "GPU Score": 7200,
+        "RAM": 16,
+        "Storage Speed": 3500,
+        "Display Quality": 93,
+        "Battery Life": 8.7,
+        "Weight": 1.8,
+        "Price": 1799,
+        "Build Quality": 94,
+        "Cooling": 72
+      }
+    },
+    {
+      "name": "ASUS Zephyrus G14",
+      "values": {
+        "CPU Score": 8300,
+        "GPU Score": 8700,
+        "RAM": 16,
+        "Storage Speed": 3300,
+        "Display Quality": 86,
+        "Battery Life": 7.8,
+        "Weight": 1.6,
+        "Price": 1449,
+        "Build Quality": 89,
+        "Cooling": 79
+      }
+    },
+    {
+      "name": "MSI Creator Z16",
+      "values": {
+        "CPU Score": 9000,
+        "GPU Score": 9400,
+        "RAM": 32,
+        "Storage Speed": 4000,
+        "Display Quality": 97,
+        "Battery Life": 6.2,
+        "Weight": 2.2,
+        "Price": 2299,
+        "Build Quality": 91,
+        "Cooling": 83
+      }
+    },
+    {
+      "name": "Eluktronics MECH-15 G3",
+      "values": {
+        "CPU Score": 8900,
+        "GPU Score": 10100,
+        "RAM": 16,
+        "Storage Speed": 3800,
+        "Display Quality": 84,
+        "Battery Life": 5.1,
+        "Weight": 2.1,
+        "Price": 1399,
+        "Build Quality": 86,
+        "Cooling": 87
+      }
+    },
+    {
+      "name": "Schenker XMG Neo 15",
+      "values": {
+        "CPU Score": 9300,
+        "GPU Score": 10600,
+        "RAM": 16,
+        "Storage Speed": 3900,
+        "Display Quality": 87,
+        "Battery Life": 4.3,
+        "Weight": 2.2,
+        "Price": 1699,
+        "Build Quality": 85,
+        "Cooling": 89
+      }
+    }
+  ],
+  "properties": [
+    {
+      "name": "CPU Score",
+      "weight": 2.5,
+      "higherIsBetter": true
+    },
+    {
+      "name": "GPU Score",
+      "weight": 3.0,
+      "higherIsBetter": true
+    },
+    {
+      "name": "RAM",
+      "weight": 1.5,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Storage Speed",
+      "weight": 1.2,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Display Quality",
+      "weight": 2.0,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Battery Life",
+      "weight": 2.2,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Weight",
+      "weight": 1.8,
+      "higherIsBetter": false
+    },
+    {
+      "name": "Price",
+      "weight": 2.8,
+      "higherIsBetter": false
+    },
+    {
+      "name": "Build Quality",
+      "weight": 1.7,
+      "higherIsBetter": true
+    },
+    {
+      "name": "Cooling",
+      "weight": 1.3,
+      "higherIsBetter": true
+    }
+  ]
+}

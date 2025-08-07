@@ -18,84 +18,84 @@ pub fn setup_custom_style(ctx: &egui::Context) {
     
     let mut style = Style::default();
     
-    // Dark charcoal theme colors
-    let charcoal_950 = Color32::from_rgb(13, 13, 13);    // #0d0d0d
-    let charcoal_900 = Color32::from_rgb(25, 25, 25);    // #191919
-    let charcoal_800 = Color32::from_rgb(45, 45, 45);    // #2d2d2d
-    let charcoal_700 = Color32::from_rgb(63, 63, 63);    // #3f3f3f
-    let charcoal_400 = Color32::from_rgb(136, 136, 136); // #888888
-    let charcoal_300 = Color32::from_rgb(176, 176, 176); // #b0b0b0
-    let charcoal_100 = Color32::from_rgb(232, 232, 232); // #e8e8e8
+    // Dark charcoal theme colors - matching webapp exactly
+    let charcoal_950 = Color32::from_rgb(13, 13, 13);    // #0d0d0d - primary background
+    let charcoal_975 = Color32::from_rgb(10, 10, 10);    // #0a0a0a - deeper background  
+    let charcoal_900 = Color32::from_rgb(25, 25, 25);    // #191919 - surface
+    let charcoal_800 = Color32::from_rgb(45, 45, 45);    // #2d2d2d - elevated
+    let charcoal_700 = Color32::from_rgb(63, 63, 63);    // #3f3f3f - borders
+    let charcoal_600 = Color32::from_rgb(93, 93, 93);    // #5d5d5d
+    let charcoal_500 = Color32::from_rgb(109, 109, 109); // #6d6d6d
+    let charcoal_400 = Color32::from_rgb(136, 136, 136); // #888888 - muted text
+    let charcoal_300 = Color32::from_rgb(176, 176, 176); // #b0b0b0 - secondary text
+    let charcoal_200 = Color32::from_rgb(209, 209, 209); // #d1d1d1
+    let charcoal_100 = Color32::from_rgb(232, 232, 232); // #e8e8e8 - primary text
 
     style.visuals = Visuals {
         dark_mode: true,
         override_text_color: Some(charcoal_100),
         
-        // Window and panel colors
+        // Window and panel colors - match webapp backgrounds
         window_fill: charcoal_950,
-        panel_fill: charcoal_900,
+        panel_fill: charcoal_950, // Primary background like webapp
         
-        // Widget colors
+        // Widget colors - match webapp interactivity
         widgets: egui::style::Widgets {
             noninteractive: egui::style::WidgetVisuals {
-                bg_fill: charcoal_900,
-                weak_bg_fill: charcoal_800,
+                bg_fill: charcoal_950,
+                weak_bg_fill: charcoal_900,
                 bg_stroke: Stroke::new(1.0, charcoal_700),
                 rounding: Rounding::same(8.0),
                 fg_stroke: Stroke::new(1.0, charcoal_300),
                 expansion: 0.0,
             },
             inactive: egui::style::WidgetVisuals {
-                bg_fill: charcoal_800,
-                weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(1.0, charcoal_700),
+                bg_fill: charcoal_900, // Surface color like webapp
+                weak_bg_fill: charcoal_800,
+                bg_stroke: Stroke::new(1.0, charcoal_800), // Darker border - less bright
                 rounding: Rounding::same(8.0),
                 fg_stroke: Stroke::new(1.0, charcoal_300),
                 expansion: 0.0,
             },
             hovered: egui::style::WidgetVisuals {
-                bg_fill: charcoal_700,
+                bg_fill: charcoal_800, // Elevated on hover like webapp
                 weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(1.0, charcoal_400),
+                bg_stroke: Stroke::new(1.0, charcoal_600),
                 rounding: Rounding::same(8.0),
                 fg_stroke: Stroke::new(1.0, charcoal_100),
                 expansion: 2.0,
             },
             active: egui::style::WidgetVisuals {
                 bg_fill: charcoal_700,
-                weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(2.0, charcoal_400),
+                weak_bg_fill: charcoal_600,
+                bg_stroke: Stroke::new(2.0, charcoal_500),
                 rounding: Rounding::same(8.0),
                 fg_stroke: Stroke::new(1.0, charcoal_100),
                 expansion: 2.0,
             },
             open: egui::style::WidgetVisuals {
-                bg_fill: charcoal_700,
+                bg_fill: charcoal_800,
                 weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(1.0, charcoal_400),
+                bg_stroke: Stroke::new(1.0, charcoal_600),
                 rounding: Rounding::same(8.0),
                 fg_stroke: Stroke::new(1.0, charcoal_100),
                 expansion: 0.0,
             },
         },
         
-        // Selection colors
+        // Selection colors - match webapp highlight
         selection: egui::style::Selection {
-            bg_fill: charcoal_700,
-            stroke: Stroke::new(1.0, charcoal_400),
+            bg_fill: charcoal_800,
+            stroke: Stroke::new(1.0, charcoal_600),
         },
         
-        // Hyperlink colors
-        hyperlink_color: charcoal_400,
+        // Hyperlink colors - use webapp accent colors
+        hyperlink_color: charcoal_500,
         
-        // Faint background color
-        faint_bg_color: charcoal_800,
-        
-        // Extreme background color
-        extreme_bg_color: charcoal_950,
-        
-        // Code background
-        code_bg_color: charcoal_800,
+        // Background colors - match webapp layering
+        faint_bg_color: charcoal_900,
+        extreme_bg_color: charcoal_975,
+        code_bg_color: charcoal_900,
         
         // Warning colors
         warn_fg_color: Color32::from_rgb(255, 165, 0),
@@ -195,6 +195,15 @@ pub fn setup_custom_style(ctx: &egui::Context) {
     style.spacing.button_padding = egui::vec2(12.0, 8.0);
     style.spacing.menu_margin = Margin::same(8.0);
     style.spacing.indent = 20.0;
+    
+    // Text input sizing - make textboxes taller
+    style.spacing.text_edit_width = 200.0;
+    
+    // Adjust interact size for different components
+    style.spacing.interact_size = egui::vec2(24.0, 24.0); // Default size
+    
+    // Fix text alignment in text edits by adjusting button padding
+    style.spacing.button_padding = egui::vec2(8.0, 6.0); // Better vertical centering for text
     
     ctx.set_style(style);
 }

@@ -266,30 +266,53 @@ impl eframe::App for ScordApp {
     fn update(&mut self, ctx: &Context, _frame: &mut eframe::Frame) {
         // Header
         TopBottomPanel::top("header").show(ctx, |ui| {
-            ui.horizontal(|ui| {
-                ui.heading("> scord");
-                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.button("Export Results").clicked() {
-                        self.export_results();
-                    }
-                    if ui.button("Export Data").clicked() {
-                        self.export_data();
-                    }
-                    if ui.button("Import").clicked() {
-                        self.import_data();
-                    }
-                    
-                    egui::ComboBox::from_label("Format")
-                        .selected_text(match self.export_format {
-                            ExportFormat::Json => "JSON",
-                            ExportFormat::Csv => "CSV",
-                        })
-                        .show_ui(ui, |ui| {
-                            ui.selectable_value(&mut self.export_format, ExportFormat::Json, "JSON");
-                            ui.selectable_value(&mut self.export_format, ExportFormat::Csv, "CSV");
-                        });
-                });
-            });
+            // Add top padding to move away from top bar
+            ui.add_space(8.0);
+            
+            ui.allocate_ui_with_layout(
+                egui::Vec2::new(ui.available_width(), ui.spacing().interact_size.y + 8.0),
+                egui::Layout::left_to_right(egui::Align::Center),
+                |ui| {
+                    ui.heading("> scord");
+                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                        // Use sized layout to ensure consistent button heights
+                        let button_height = ui.spacing().interact_size.y;
+                        
+                        if ui.add_sized([100.0, button_height], egui::Button::new("Export Results")).clicked() {
+                            self.export_results();
+                        }
+                        if ui.add_sized([100.0, button_height], egui::Button::new("Export Data")).clicked() {
+                            self.export_data();
+                        }
+                        if ui.add_sized([80.0, button_height], egui::Button::new("Import")).clicked() {
+                            self.import_data();
+                        }
+                        
+                        // Add some spacing before the ComboBox to prevent overlap
+                        ui.add_space(8.0);
+                        
+                        // Ensure ComboBox has same height as buttons and proper width
+                        ui.allocate_ui_with_layout(
+                            egui::Vec2::new(120.0, button_height), // Wider for "Format: " text
+                            egui::Layout::left_to_right(egui::Align::Center),
+                            |ui| {
+                                egui::ComboBox::from_label("")
+                                    .selected_text(format!("Format: {}", match self.export_format {
+                                        ExportFormat::Json => "JSON",
+                                        ExportFormat::Csv => "CSV",
+                                    }))
+                                    .show_ui(ui, |ui| {
+                                        ui.selectable_value(&mut self.export_format, ExportFormat::Json, "JSON");
+                                        ui.selectable_value(&mut self.export_format, ExportFormat::Csv, "CSV");
+                                    });
+                            }
+                        );
+                    });
+                }
+            );
+            
+            // Add bottom padding
+            ui.add_space(4.0);
         });
 
         // Status bar

@@ -23,7 +23,8 @@ impl SpreadsheetView {
             let contestant_name_updates = std::cell::RefCell::new(Vec::new());
 
             Grid::new("spreadsheet_grid")
-                .striped(true)
+                .striped(false) // Disable alternating row colors
+                .spacing(egui::vec2(8.0, 4.0)) // Add spacing between rows and columns
                 .min_col_width(120.0) // Make columns wider
                 .show(ui, |ui| {
                     // Header row
@@ -33,24 +34,29 @@ impl SpreadsheetView {
                         ui.vertical(|ui| {
                             ui.set_min_width(150.0); // Even wider for property columns
                             
-                            // Editable property name
+                            // Editable property name with consistent height and proper text alignment
                             let mut name = property.name.clone();
-                            let response = ui.text_edit_singleline(&mut name);
-                            if response.changed() {
-                                property_updates.borrow_mut().push((
-                                    property.id, 
-                                    name, 
-                                    property.weight, 
-                                    property.higher_is_better
-                                ));
-                            }
+                            egui::Frame::none()
+                                .inner_margin(egui::Margin::symmetric(0.0, 3.0)) // Fix text vertical alignment
+                                .show(ui, |ui| {
+                                    let mut textbox = egui::TextEdit::singleline(&mut name);
+                                    let response = ui.add_sized([ui.available_width(), 22.0], textbox);
+                                    if response.changed() {
+                                        property_updates.borrow_mut().push((
+                                            property.id, 
+                                            name, 
+                                            property.weight, 
+                                            property.higher_is_better
+                                        ));
+                                    }
+                                });
                             
                             // Weight and direction controls with proper alignment
                             let size = egui::Vec2::new(ui.available_width(), ui.spacing().interact_size.y + 4.0);
                             ui.allocate_ui_with_layout(size, egui::Layout::left_to_right(egui::Align::Center), |ui| {
                                 ui.label("Weight:");
                                 let mut weight = property.weight;
-                                if ui.add(egui::DragValue::new(&mut weight)
+                                if ui.add_sized([80.0, 20.0], egui::DragValue::new(&mut weight)
                                     .speed(0.1)
                                     .range(0.1..=10.0)
                                     .fixed_decimals(1)).changed() {
@@ -127,22 +133,33 @@ impl SpreadsheetView {
                     
                     ui.strong("Actions");
                     ui.end_row();
+                    
+                    // Add separator line after header
+                    for _ in 0..=app.properties.len() + 1 {
+                        ui.separator();
+                    }
+                    ui.end_row();
 
                     // Data rows
-                    for contestant in &app.contestants {
-                        // Editable contestant name
+                    for (row_index, contestant) in app.contestants.iter().enumerate() {
+                        // Editable contestant name with consistent height and proper text alignment
                         let mut name = contestant.name.clone();
-                        let response = ui.text_edit_singleline(&mut name);
-                        if response.changed() {
-                            contestant_name_updates.borrow_mut().push((contestant.id, name));
-                        }
+                        egui::Frame::none()
+                            .inner_margin(egui::Margin::symmetric(0.0, 3.0)) // Fix text vertical alignment
+                            .show(ui, |ui| {
+                                let mut textbox = egui::TextEdit::singleline(&mut name);
+                                let response = ui.add_sized([ui.available_width(), 22.0], textbox);
+                                if response.changed() {
+                                    contestant_name_updates.borrow_mut().push((contestant.id, name));
+                                }
+                            });
                         
-                        // Values for each property
+                        // Values for each property with consistent height
                         for property in &app.properties {
                             let value = contestant.get_value(&property.id);
                             let mut temp_value = value;
                             
-                            if ui.add(egui::DragValue::new(&mut temp_value)
+                            if ui.add_sized([ui.available_width(), 20.0], egui::DragValue::new(&mut temp_value)
                                 .speed(0.1)
                                 .fixed_decimals(1)).changed() {
                                 value_updates.borrow_mut().push((contestant.id, property.id, temp_value));
@@ -155,6 +172,14 @@ impl SpreadsheetView {
                         }
                         
                         ui.end_row();
+                        
+                        // Add separator line between rows (except after last row)
+                        if row_index < app.contestants.len() - 1 {
+                            for _ in 0..=app.properties.len() + 1 {
+                                ui.separator();
+                            }
+                            ui.end_row();
+                        }
                     }
                 });
             

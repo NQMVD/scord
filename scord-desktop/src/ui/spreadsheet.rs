@@ -1,11 +1,12 @@
 use crate::app::ScordApp;
+use crate::models::VisualConfig;
 use egui::{Ui, ScrollArea, Grid};
 
 
 pub struct SpreadsheetView;
 
 impl SpreadsheetView {
-    pub fn show(ui: &mut Ui, app: &mut ScordApp) {
+    pub fn show(ui: &mut Ui, app: &mut ScordApp, config: &VisualConfig) {
         ui.heading("Contestant Data");
         
         ScrollArea::both().show(ui, |ui| {
@@ -93,8 +94,8 @@ impl SpreadsheetView {
                                     let visuals = ui.style().interact(&response);
                                     
                                     // Draw button background
-                                    ui.painter().rect_filled(rect, 2.0, visuals.bg_fill);
-                                    ui.painter().rect_stroke(rect, 2.0, visuals.bg_stroke);
+                                    ui.painter().rect_filled(rect, config.corner_radius, visuals.bg_fill);
+                                    ui.painter().rect_stroke(rect, config.corner_radius, visuals.bg_stroke);
                                     
                                     // Draw arrow triangle
                                     let center = rect.center();

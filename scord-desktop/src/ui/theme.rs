@@ -1,6 +1,11 @@
+use crate::models::VisualConfig;
 use egui::{Color32, Rounding, Shadow, Stroke, Style, Visuals, Margin, FontDefinitions, FontData, FontFamily};
 
 pub fn setup_custom_style(ctx: &egui::Context) {
+    setup_custom_style_with_config(ctx, &VisualConfig::default())
+}
+
+pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig) {
     // Setup PP Supply Sans font (webfont version with corrected metrics)
     let mut fonts = FontDefinitions::default();
     
@@ -44,40 +49,40 @@ pub fn setup_custom_style(ctx: &egui::Context) {
             noninteractive: egui::style::WidgetVisuals {
                 bg_fill: charcoal_950,
                 weak_bg_fill: charcoal_900,
-                bg_stroke: Stroke::new(1.0, charcoal_700),
-                rounding: Rounding::same(8.0),
+                bg_stroke: Stroke::new(config.border_width, charcoal_700),
+                rounding: config.get_rounding(),
                 fg_stroke: Stroke::new(1.0, charcoal_300),
                 expansion: 0.0,
             },
             inactive: egui::style::WidgetVisuals {
                 bg_fill: charcoal_900, // Surface color like webapp
                 weak_bg_fill: charcoal_800,
-                bg_stroke: Stroke::new(1.0, charcoal_800), // Darker border - less bright
-                rounding: Rounding::same(8.0),
+                bg_stroke: Stroke::new(config.border_width, charcoal_800), // Darker border - less bright
+                rounding: config.get_rounding(),
                 fg_stroke: Stroke::new(1.0, charcoal_300),
                 expansion: 0.0,
             },
             hovered: egui::style::WidgetVisuals {
                 bg_fill: charcoal_800, // Elevated on hover like webapp
                 weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(1.0, charcoal_600),
-                rounding: Rounding::same(8.0),
+                bg_stroke: Stroke::new(config.border_width, charcoal_600),
+                rounding: config.get_rounding(),
                 fg_stroke: Stroke::new(1.0, charcoal_100),
-                expansion: 2.0,
+                expansion: config.hover_expansion,
             },
             active: egui::style::WidgetVisuals {
                 bg_fill: charcoal_700,
                 weak_bg_fill: charcoal_600,
-                bg_stroke: Stroke::new(2.0, charcoal_500),
-                rounding: Rounding::same(8.0),
+                bg_stroke: Stroke::new(config.active_border_width, charcoal_500),
+                rounding: config.get_rounding(),
                 fg_stroke: Stroke::new(1.0, charcoal_100),
-                expansion: 2.0,
+                expansion: config.active_expansion,
             },
             open: egui::style::WidgetVisuals {
                 bg_fill: charcoal_800,
                 weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(1.0, charcoal_600),
-                rounding: Rounding::same(8.0),
+                bg_stroke: Stroke::new(config.border_width, charcoal_600),
+                rounding: config.get_rounding(),
                 fg_stroke: Stroke::new(1.0, charcoal_100),
                 expansion: 0.0,
             },
@@ -102,19 +107,18 @@ pub fn setup_custom_style(ctx: &egui::Context) {
         error_fg_color: Color32::from_rgb(255, 100, 100),
         
         // Window shadow
-        window_shadow: Shadow {
-            offset: egui::vec2(4.0, 4.0),
-            blur: 8.0,
-            spread: 0.0,
-            color: Color32::from_black_alpha(100),
-        },
+        window_shadow: config.get_shadow(),
         
         // Popup shadow
-        popup_shadow: Shadow {
-            offset: egui::vec2(8.0, 8.0),
-            blur: 16.0,
-            spread: 0.0,
-            color: Color32::from_black_alpha(96),
+        popup_shadow: if config.shadow_enabled {
+            Shadow {
+                offset: egui::vec2(8.0, 8.0),
+                blur: config.shadow_blur * 2.0,
+                spread: config.shadow_spread,
+                color: Color32::from_black_alpha(96),
+            }
+        } else {
+            Shadow::NONE
         },
         
         // Resize corner size
@@ -151,7 +155,7 @@ pub fn setup_custom_style(ctx: &egui::Context) {
         handle_shape: egui::style::HandleShape::Circle,
         
         // Menu rounding
-        menu_rounding: Rounding::same(8.0),
+        menu_rounding: config.get_rounding(),
         
         // Interact cursor
         interact_cursor: None,
@@ -160,7 +164,7 @@ pub fn setup_custom_style(ctx: &egui::Context) {
         image_loading_spinners: true,
         
         // Window rounding
-        window_rounding: Rounding::same(8.0),
+        window_rounding: Rounding::same(config.window_rounding),
         
         // Window stroke
         window_stroke: Stroke::new(1.0, charcoal_700),
@@ -172,28 +176,28 @@ pub fn setup_custom_style(ctx: &egui::Context) {
         numeric_color_space: egui::style::NumericColorSpace::GammaByte,
     };
     
-    // Font sizes
+    // Font sizes from config
     style.text_styles.insert(
         egui::TextStyle::Body,
-        egui::FontId::new(16.0, egui::FontFamily::Proportional),
+        egui::FontId::new(config.base_font_size, egui::FontFamily::Proportional),
     );
     style.text_styles.insert(
         egui::TextStyle::Button,
-        egui::FontId::new(15.0, egui::FontFamily::Proportional),
+        egui::FontId::new(config.button_font_size, egui::FontFamily::Proportional),
     );
     style.text_styles.insert(
         egui::TextStyle::Heading,
-        egui::FontId::new(22.0, egui::FontFamily::Proportional),
+        egui::FontId::new(config.heading_font_size, egui::FontFamily::Proportional),
     );
     style.text_styles.insert(
         egui::TextStyle::Small,
-        egui::FontId::new(13.0, egui::FontFamily::Proportional),
+        egui::FontId::new(config.small_font_size, egui::FontFamily::Proportional),
     );
     
-    // Spacing adjustments
-    style.spacing.item_spacing = egui::vec2(8.0, 8.0);
-    style.spacing.button_padding = egui::vec2(12.0, 8.0);
-    style.spacing.menu_margin = Margin::same(8.0);
+    // Spacing adjustments from config
+    style.spacing.item_spacing = config.get_item_spacing();
+    style.spacing.button_padding = config.get_button_padding();
+    style.spacing.menu_margin = Margin::same(config.panel_margin);
     style.spacing.indent = 20.0;
     
     // Text input sizing - make textboxes taller
@@ -202,8 +206,8 @@ pub fn setup_custom_style(ctx: &egui::Context) {
     // Adjust interact size for different components
     style.spacing.interact_size = egui::vec2(24.0, 24.0); // Default size
     
-    // Fix text alignment in text edits by adjusting button padding
-    style.spacing.button_padding = egui::vec2(8.0, 6.0); // Better vertical centering for text
+    // Use consistent button padding from config
+    style.spacing.button_padding = config.get_button_padding();
     
     ctx.set_style(style);
 }

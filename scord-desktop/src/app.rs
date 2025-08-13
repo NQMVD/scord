@@ -1,9 +1,10 @@
-use crate::models::{TabManager};
-use crate::ui::{setup_custom_style, SpreadsheetView, ResultsPanel, ControlsPanel, TabBar, TabAction};
+use crate::models::{TabManager, VisualConfig};
+use crate::ui::{setup_custom_style, setup_custom_style_with_config, SpreadsheetView, ResultsPanel, ControlsPanel, TabBar, TabAction, VisualSettingsPanel};
 use egui::{Context, CentralPanel, SidePanel, TopBottomPanel};
 
 pub struct ScordApp {
     tab_manager: TabManager,
+    visual_settings: VisualSettingsPanel,
 }
 
 
@@ -11,14 +12,18 @@ impl Default for ScordApp {
     fn default() -> Self {
         Self {
             tab_manager: TabManager::new(),
+            visual_settings: VisualSettingsPanel::new(),
         }
     }
 }
 
 impl ScordApp {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        setup_custom_style(&cc.egui_ctx);
-        Self::default()
+        let config = VisualConfig::load();
+        setup_custom_style_with_config(&cc.egui_ctx, &config);
+        let mut app = Self::default();
+        app.visual_settings.config = config;
+        app
     }
 
     // Delegate methods to active tab
@@ -155,7 +160,7 @@ impl eframe::App for ScordApp {
             ui.add_space(4.0);
             
             // Tab bar
-            if let Some(action) = TabBar::show(ui, &mut self.tab_manager) {
+            if let Some(action) = TabBar::show(ui, &mut self.tab_manager, self.visual_settings.get_config()) {
                 match action {
                     TabAction::SwitchTo(index) => {
                         self.tab_manager.set_active_tab(index);
@@ -272,8 +277,21 @@ impl eframe::App for ScordApp {
             });
 
         // Main spreadsheet
+        let config = self.visual_settings.get_config().clone();
         CentralPanel::default().show(ctx, |ui| {
-            SpreadsheetView::show(ui, self);
+            SpreadsheetView::show(ui, self, &config);
+        });
+        
+        // Visual settings panel
+        if self.visual_settings.show(ctx) {
+            setup_custom_style_with_config(ctx, self.visual_settings.get_config());
+        }
+        
+        // Handle keyboard shortcut for visual settings
+        ctx.input(|i| {
+            if i.key_pressed(egui::Key::Comma) && i.modifiers.ctrl {
+                self.visual_settings.toggle();
+            }
         });
     }
 }

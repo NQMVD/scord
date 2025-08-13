@@ -1,26 +1,27 @@
 use crate::models::tab::{TabManager, Tab};
+use crate::models::VisualConfig;
 use egui::{Color32, Stroke, Rounding, Vec2, Pos2, Rect, Sense};
 
 pub struct TabBar;
 
 impl TabBar {
-    pub fn show(ui: &mut egui::Ui, tab_manager: &mut TabManager) -> Option<TabAction> {
+    pub fn show(ui: &mut egui::Ui, tab_manager: &mut TabManager, config: &VisualConfig) -> Option<TabAction> {
         let mut action = None;
         
         ui.horizontal(|ui| {
             // Tab bar styling with spacing
-            ui.spacing_mut().item_spacing.x = 16.0; // Add small gap between tabs
+            ui.spacing_mut().item_spacing.x = config.tab_spacing; // Use configurable tab spacing
             
             let available_width = ui.available_width() - 40.0; // Reserve space for + button
             let tab_count = tab_manager.tab_count();
             let max_tab_width = 200.0;
             let min_tab_width = 120.0;
-            let spacing_total = (tab_count.saturating_sub(1)) as f32 * 2.0; // Account for spacing
+            let spacing_total = (tab_count.saturating_sub(1)) as f32 * config.tab_spacing; // Account for spacing
             let tab_width = ((available_width - spacing_total) / tab_count as f32).clamp(min_tab_width, max_tab_width);
             
             // Draw tabs
             for (index, tab) in tab_manager.tabs.iter().enumerate() {
-                if let Some(tab_action) = Self::draw_tab(ui, tab, index, tab_width, tab_manager.active_tab_index == index) {
+                if let Some(tab_action) = Self::draw_tab(ui, tab, index, tab_width, tab_manager.active_tab_index == index, config) {
                     action = Some(tab_action);
                 }
             }
@@ -35,7 +36,7 @@ impl TabBar {
         action
     }
     
-    fn draw_tab(ui: &mut egui::Ui, tab: &Tab, index: usize, width: f32, is_active: bool) -> Option<TabAction> {
+    fn draw_tab(ui: &mut egui::Ui, tab: &Tab, index: usize, width: f32, is_active: bool, config: &VisualConfig) -> Option<TabAction> {
         let height = 32.0;
         let (rect, response) = ui.allocate_exact_size(Vec2::new(width, height), Sense::click());
         
@@ -70,22 +71,22 @@ impl TabBar {
         
         let stroke = if is_active {
             if has_unsaved {
-                Stroke::new(1.5, Color32::from_rgb(180, 100, 100)) // Red border for unsaved active tab
+                Stroke::new(config.active_border_width, Color32::from_rgb(180, 100, 100)) // Red border for unsaved active tab
             } else {
-                Stroke::new(1.0, Color32::from_gray(100))
+                Stroke::new(config.border_width, Color32::from_gray(100))
             }
         } else {
             if has_unsaved {
-                Stroke::new(1.0, Color32::from_rgb(120, 80, 80)) // Dim red border for unsaved tab
+                Stroke::new(config.border_width, Color32::from_rgb(120, 80, 80)) // Dim red border for unsaved tab
             } else {
-                Stroke::new(1.0, Color32::from_gray(60))
+                Stroke::new(config.border_width, Color32::from_gray(60))
             }
         };
         
         // Draw tab background
         ui.painter().rect(
             rect,
-            Rounding::same(4.0),
+            config.get_tab_rounding(),
             bg_color,
             stroke,
         );

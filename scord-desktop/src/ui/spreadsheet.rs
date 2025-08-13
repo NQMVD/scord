@@ -9,7 +9,18 @@ impl SpreadsheetView {
         ui.heading("Contestant Data");
         
         ScrollArea::both().show(ui, |ui| {
-            if app.contestants.is_empty() && app.properties.is_empty() {
+            // Get active tab data
+            let (contestants, properties, _score_results) = match app.get_active_tab_data() {
+                Some(data) => data,
+                None => {
+                    ui.centered_and_justified(|ui| {
+                        ui.label("No active tab");
+                    });
+                    return;
+                }
+            };
+            
+            if contestants.is_empty() && properties.is_empty() {
                 ui.centered_and_justified(|ui| {
                     ui.label("Add contestants and properties to get started");
                 });
@@ -30,7 +41,7 @@ impl SpreadsheetView {
                     // Header row
                     ui.strong("Contestant");
                     
-                    for property in &app.properties {
+                    for property in properties {
                         ui.vertical(|ui| {
                             ui.set_min_width(150.0); // Even wider for property columns
                             
@@ -135,7 +146,7 @@ impl SpreadsheetView {
                     ui.end_row();
 
                     // Data rows
-                    for contestant in &app.contestants {
+                    for contestant in contestants {
                         // Editable contestant name with consistent height and proper text alignment
                         let mut name = contestant.name.clone();
                         egui::Frame::none()
@@ -149,7 +160,7 @@ impl SpreadsheetView {
                             });
                         
                         // Values for each property with consistent height
-                        for property in &app.properties {
+                        for property in properties {
                             let value = contestant.get_value(&property.id);
                             let mut temp_value = value;
                             

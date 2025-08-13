@@ -24,9 +24,11 @@ impl ControlsPanel {
                             egui::Frame::none()
                                 .inner_margin(egui::Margin { left: 0.0, right: 0.0, top: 6.0, bottom: 2.0 })
                                 .show(ui, |ui| {
-                                    let mut textbox = egui::TextEdit::singleline(&mut app.new_contestant_name)
-                                        .desired_width(180.0);
-                                    ui.add_sized([180.0, 20.0], textbox).on_hover_text("Contestant name");
+                                    if let Some((new_contestant_name, _, _, _)) = app.get_active_tab_ui_state_mut() {
+                                        let mut textbox = egui::TextEdit::singleline(new_contestant_name)
+                                            .desired_width(180.0);
+                                        ui.add_sized([180.0, 20.0], textbox).on_hover_text("Contestant name");
+                                    }
                                 });
                         }
                     );
@@ -55,9 +57,11 @@ impl ControlsPanel {
                             egui::Frame::none()
                                 .inner_margin(egui::Margin { left: 0.0, right: 0.0, top: 6.0, bottom: 2.0 })
                                 .show(ui, |ui| {
-                                    let mut textbox = egui::TextEdit::singleline(&mut app.new_property_name)
-                                        .desired_width(180.0);
-                                    ui.add_sized([180.0, 20.0], textbox).on_hover_text("Property name");
+                                    if let Some((_, new_property_name, _, _)) = app.get_active_tab_ui_state_mut() {
+                                        let mut textbox = egui::TextEdit::singleline(new_property_name)
+                                            .desired_width(180.0);
+                                        ui.add_sized([180.0, 20.0], textbox).on_hover_text("Property name");
+                                    }
                                 });
                         }
                     );
@@ -66,12 +70,16 @@ impl ControlsPanel {
                     ui.visuals_mut().widgets.inactive.bg_fill = egui::Color32::from_rgb(45, 45, 45); // charcoal-800 - darker
                     ui.visuals_mut().widgets.hovered.bg_fill = egui::Color32::from_rgb(63, 63, 63); // charcoal-700
                     
-                    ui.add_sized([120.0, 20.0], egui::DragValue::new(&mut app.new_property_weight)
-                        .speed(0.1)
-                        .range(0.1..=10.0)
-                        .prefix("Weight: "));
+                    if let Some((_, _, new_property_weight, _)) = app.get_active_tab_ui_state_mut() {
+                        ui.add_sized([120.0, 20.0], egui::DragValue::new(new_property_weight)
+                            .speed(0.1)
+                            .range(0.1..=10.0)
+                            .prefix("Weight: "));
+                    }
                     
-                    ui.checkbox(&mut app.new_property_higher_is_better, "Higher is better");
+                    if let Some((_, _, _, new_property_higher_is_better)) = app.get_active_tab_ui_state_mut() {
+                        ui.checkbox(new_property_higher_is_better, "Higher is better");
+                    }
                     
                     if ui.button("Add Property").clicked() {
                         app.add_property();

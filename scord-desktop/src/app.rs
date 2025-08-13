@@ -1,52 +1,16 @@
-use crate::models::{Contestant, Property, ScoringEngine, ScoreResult};
-use crate::persistence::{Storage, AppData};
-use crate::ui::{setup_custom_style, SpreadsheetView, ResultsPanel, ControlsPanel};
-use crate::utils::export::{export_data_to_json, export_results_to_json, export_data_to_csv, export_results_to_csv, import_data_from_json};
-use anyhow::Result;
+use crate::models::{TabManager};
+use crate::ui::{setup_custom_style, SpreadsheetView, ResultsPanel, ControlsPanel, TabBar, TabAction};
 use egui::{Context, CentralPanel, SidePanel, TopBottomPanel};
-use std::fs;
-use uuid::Uuid;
 
 pub struct ScordApp {
-    pub contestants: Vec<Contestant>,
-    pub properties: Vec<Property>,
-    pub score_results: Vec<ScoreResult>,
-    storage: Storage,
-    
-    // UI state
-    pub new_contestant_name: String,
-    pub new_property_name: String,
-    pub new_property_weight: f64,
-    pub new_property_higher_is_better: bool,
-    
-    // Status
-    status_message: String,
-    show_status: bool,
-    
-    // Export format
-    export_format: ExportFormat,
+    tab_manager: TabManager,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum ExportFormat {
-    Json,
-    Csv,
-}
 
 impl Default for ScordApp {
     fn default() -> Self {
         Self {
-            contestants: Vec::new(),
-            properties: Vec::new(),
-            score_results: Vec::new(),
-            storage: Storage::new(),
-            new_contestant_name: String::new(),
-            new_property_name: String::new(),
-            new_property_weight: 1.0,
-            new_property_higher_is_better: true,
-            status_message: String::new(),
-            show_status: false,
-            export_format: ExportFormat::Json,
+            tab_manager: TabManager::new(),
         }
     }
 }
@@ -54,278 +18,240 @@ impl Default for ScordApp {
 impl ScordApp {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         setup_custom_style(&cc.egui_ctx);
-        
-        let mut app = Self::default();
-        if let Err(e) = app.load_data() {
-            app.set_status(&format!("Failed to load data: {}", e));
-        }
-        app.update_scores();
-        app
+        Self::default()
     }
 
-    fn load_data(&mut self) -> Result<()> {
-        let data = self.storage.load()?;
-        self.contestants = data.contestants;
-        self.properties = data.properties;
-        Ok(())
-    }
-
-    fn save_data(&mut self) -> Result<()> {
-        let data = AppData {
-            contestants: self.contestants.clone(),
-            properties: self.properties.clone(),
-        };
-        self.storage.save(&data)
-    }
-
-    fn auto_save(&mut self) {
-        if let Err(e) = self.save_data() {
-            self.set_status(&format!("Auto-save failed: {}", e));
-        }
-    }
-
-    fn update_scores(&mut self) {
-        self.score_results = ScoringEngine::calculate_scores(&self.contestants, &self.properties);
-    }
-
-    fn set_status(&mut self, message: &str) {
-        self.status_message = message.to_string();
-        self.show_status = true;
-    }
-
+    // Delegate methods to active tab
     pub fn add_contestant(&mut self) {
-        if !self.new_contestant_name.trim().is_empty() {
-            let contestant = Contestant::new(self.new_contestant_name.trim().to_string());
-            self.contestants.push(contestant);
-            self.new_contestant_name.clear();
-            self.update_scores();
-            self.auto_save();
-            self.set_status("Contestant added");
+        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+            tab.content.add_contestant();
         }
     }
 
     pub fn add_property(&mut self) {
-        if !self.new_property_name.trim().is_empty() {
-            let order = self.properties.len();
-            let property = Property::new(
-                self.new_property_name.trim().to_string(),
-                self.new_property_weight,
-                self.new_property_higher_is_better,
-                order,
-            );
-            self.properties.push(property);
-            self.new_property_name.clear();
-            self.new_property_weight = 1.0;
-            self.new_property_higher_is_better = true;
-            self.update_scores();
-            self.auto_save();
-            self.set_status("Property added");
+        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+            tab.content.add_property();
         }
     }
 
-    pub fn delete_contestant(&mut self, contestant_id: Uuid) {
-        self.contestants.retain(|c| c.id != contestant_id);
-        self.update_scores();
-        self.auto_save();
-        self.set_status("Contestant deleted");
-    }
-
-    pub fn delete_property(&mut self, property_id: Uuid) {
-        self.properties.retain(|p| p.id != property_id);
-        // Clean up contestant values
-        for contestant in &mut self.contestants {
-            contestant.remove_property(&property_id);
-        }
-        self.update_scores();
-        self.auto_save();
-        self.set_status("Property deleted");
-    }
-
-    pub fn update_contestant_name(&mut self, contestant_id: Uuid, name: String) {
-        if let Some(contestant) = self.contestants.iter_mut().find(|c| c.id == contestant_id) {
-            contestant.name = name;
-            self.update_scores();
-            self.auto_save();
+    pub fn delete_contestant(&mut self, contestant_id: uuid::Uuid) {
+        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+            tab.content.delete_contestant(contestant_id);
         }
     }
 
-    pub fn update_contestant_value(&mut self, contestant_id: Uuid, property_id: Uuid, value: f64) {
-        if let Some(contestant) = self.contestants.iter_mut().find(|c| c.id == contestant_id) {
-            contestant.set_value(property_id, value);
-            self.update_scores();
-            self.auto_save();
+    pub fn delete_property(&mut self, property_id: uuid::Uuid) {
+        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+            tab.content.delete_property(property_id);
         }
     }
 
-    pub fn update_property(&mut self, property_id: Uuid, name: String, weight: f64, higher_is_better: bool) {
-        if let Some(property) = self.properties.iter_mut().find(|p| p.id == property_id) {
-            property.name = name;
-            property.weight = weight;
-            property.higher_is_better = higher_is_better;
-            self.update_scores();
-            self.auto_save();
+    pub fn update_contestant_name(&mut self, contestant_id: uuid::Uuid, name: String) {
+        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+            tab.content.update_contestant_name(contestant_id, name);
         }
     }
 
-    pub fn export_data(&mut self) {
-        let (extension, filter_name, filename) = match self.export_format {
-            ExportFormat::Json => ("json", "JSON", "contestant-data.json"),
-            ExportFormat::Csv => ("csv", "CSV", "contestant-data.csv"),
-        };
-        
-        if let Some(path) = rfd::FileDialog::new()
-            .add_filter(filter_name, &[extension])
-            .set_file_name(filename)
-            .save_file()
-        {
-            let result = match self.export_format {
-                ExportFormat::Json => export_data_to_json(&self.contestants, &self.properties),
-                ExportFormat::Csv => export_data_to_csv(&self.contestants, &self.properties),
-            };
-            
-            match result {
-                Ok(content) => {
-                    if let Err(e) = fs::write(&path, content) {
-                        self.set_status(&format!("Export failed: {}", e));
-                    } else {
-                        self.set_status("Data exported successfully");
-                    }
-                }
-                Err(e) => self.set_status(&format!("Export failed: {}", e)),
-            }
+    pub fn update_contestant_value(&mut self, contestant_id: uuid::Uuid, property_id: uuid::Uuid, value: f64) {
+        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+            tab.content.update_contestant_value(contestant_id, property_id, value);
         }
     }
 
-    pub fn export_results(&mut self) {
-        let (extension, filter_name, filename) = match self.export_format {
-            ExportFormat::Json => ("json", "JSON", "scoring-results.json"),
-            ExportFormat::Csv => ("csv", "CSV", "scoring-results.csv"),
-        };
-        
-        if let Some(path) = rfd::FileDialog::new()
-            .add_filter(filter_name, &[extension])
-            .set_file_name(filename)
-            .save_file()
-        {
-            let result = match self.export_format {
-                ExportFormat::Json => export_results_to_json(&self.score_results),
-                ExportFormat::Csv => export_results_to_csv(&self.score_results),
-            };
-            
-            match result {
-                Ok(content) => {
-                    if let Err(e) = fs::write(&path, content) {
-                        self.set_status(&format!("Export failed: {}", e));
-                    } else {
-                        self.set_status("Results exported successfully");
-                    }
-                }
-                Err(e) => self.set_status(&format!("Export failed: {}", e)),
-            }
+    pub fn update_property(&mut self, property_id: uuid::Uuid, name: String, weight: f64, higher_is_better: bool) {
+        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+            tab.content.update_property(property_id, name, weight, higher_is_better);
         }
     }
 
-    pub fn import_data(&mut self) {
-        if let Some(path) = rfd::FileDialog::new()
-            .add_filter("JSON", &["json"])
-            .pick_file()
-        {
-            match fs::read_to_string(&path) {
-                Ok(content) => {
-                    // Try the export format first (with property names as keys)
-                    match import_data_from_json(&content) {
-                        Ok((contestants, properties)) => {
-                            self.contestants = contestants;
-                            self.properties = properties;
-                            self.update_scores();
-                            self.auto_save();
-                            self.set_status("Data imported successfully");
-                        }
-                        Err(_) => {
-                            // Fall back to internal format (with UUIDs)
-                            match serde_json::from_str::<AppData>(&content) {
-                                Ok(data) => {
-                                    self.contestants = data.contestants;
-                                    self.properties = data.properties;
-                                    self.update_scores();
-                                    self.auto_save();
-                                    self.set_status("Data imported successfully");
-                                }
-                                Err(e) => self.set_status(&format!("Import failed: {}", e)),
-                            }
-                        }
-                    }
-                }
-                Err(e) => self.set_status(&format!("Import failed: {}", e)),
-            }
-        }
+    // Access methods for UI components
+    pub fn get_active_tab_data(&self) -> Option<(&Vec<crate::models::Contestant>, &Vec<crate::models::Property>, &Vec<crate::models::ScoreResult>)> {
+        self.tab_manager.get_active_tab().map(|tab| (
+            &tab.content.contestants,
+            &tab.content.properties,
+            &tab.content.score_results,
+        ))
+    }
+
+    pub fn get_active_tab_ui_state(&self) -> Option<(&String, &String, f64, bool)> {
+        self.tab_manager.get_active_tab().map(|tab| (
+            &tab.content.new_contestant_name,
+            &tab.content.new_property_name,
+            tab.content.new_property_weight,
+            tab.content.new_property_higher_is_better,
+        ))
+    }
+
+    pub fn get_active_tab_ui_state_mut(&mut self) -> Option<(&mut String, &mut String, &mut f64, &mut bool)> {
+        self.tab_manager.get_active_tab_mut().map(|tab| (
+            &mut tab.content.new_contestant_name,
+            &mut tab.content.new_property_name,
+            &mut tab.content.new_property_weight,
+            &mut tab.content.new_property_higher_is_better,
+        ))
     }
 }
 
 impl eframe::App for ScordApp {
     fn update(&mut self, ctx: &Context, _frame: &mut eframe::Frame) {
-        // Header
+        // Handle keyboard shortcuts
+        ctx.input(|i| {
+            // Ctrl+T: New tab
+            if i.key_pressed(egui::Key::T) && i.modifiers.ctrl {
+                self.tab_manager.add_tab();
+            }
+            // Ctrl+W: Close current tab (if more than one tab exists)
+            if i.key_pressed(egui::Key::W) && i.modifiers.ctrl {
+                if self.tab_manager.can_close_tab(self.tab_manager.active_tab_index) {
+                    self.tab_manager.close_tab(self.tab_manager.active_tab_index);
+                }
+            }
+            // Ctrl+Tab: Next tab
+            if i.key_pressed(egui::Key::Tab) && i.modifiers.ctrl && !i.modifiers.shift {
+                let next_index = (self.tab_manager.active_tab_index + 1) % self.tab_manager.tab_count();
+                self.tab_manager.set_active_tab(next_index);
+            }
+            // Ctrl+Shift+Tab: Previous tab
+            if i.key_pressed(egui::Key::Tab) && i.modifiers.ctrl && i.modifiers.shift {
+                let prev_index = if self.tab_manager.active_tab_index == 0 {
+                    self.tab_manager.tab_count() - 1
+                } else {
+                    self.tab_manager.active_tab_index - 1
+                };
+                self.tab_manager.set_active_tab(prev_index);
+            }
+            // Ctrl+1-9: Switch to tab by number
+            for i_key in 1..=9 {
+                let key = match i_key {
+                    1 => egui::Key::Num1,
+                    2 => egui::Key::Num2,
+                    3 => egui::Key::Num3,
+                    4 => egui::Key::Num4,
+                    5 => egui::Key::Num5,
+                    6 => egui::Key::Num6,
+                    7 => egui::Key::Num7,
+                    8 => egui::Key::Num8,
+                    9 => egui::Key::Num9,
+                    _ => continue,
+                };
+                if i.key_pressed(key) && i.modifiers.ctrl {
+                    let tab_index = (i_key - 1) as usize;
+                    if tab_index < self.tab_manager.tab_count() {
+                        self.tab_manager.set_active_tab(tab_index);
+                    }
+                }
+            }
+        });
+
+        // Header with app title and tabs
         TopBottomPanel::top("header").show(ctx, |ui| {
-            // Add top padding to move away from top bar
             ui.add_space(8.0);
             
-            ui.allocate_ui_with_layout(
-                egui::Vec2::new(ui.available_width(), ui.spacing().interact_size.y + 8.0),
-                egui::Layout::left_to_right(egui::Align::Center),
-                |ui| {
-                    ui.heading("> scord");
-                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                        // Use sized layout to ensure consistent button heights
-                        let button_height = ui.spacing().interact_size.y;
-                        
-                        if ui.add_sized([100.0, button_height], egui::Button::new("Export Results")).clicked() {
-                            self.export_results();
-                        }
-                        if ui.add_sized([100.0, button_height], egui::Button::new("Export Data")).clicked() {
-                            self.export_data();
-                        }
-                        if ui.add_sized([80.0, button_height], egui::Button::new("Import")).clicked() {
-                            self.import_data();
-                        }
-                        
-                        // Add some spacing before the ComboBox to prevent overlap
-                        ui.add_space(8.0);
-                        
-                        // Ensure ComboBox has same height as buttons and proper width
-                        ui.allocate_ui_with_layout(
-                            egui::Vec2::new(120.0, button_height), // Wider for "Format: " text
-                            egui::Layout::left_to_right(egui::Align::Center),
-                            |ui| {
-                                egui::ComboBox::from_label("")
-                                    .selected_text(format!("Format: {}", match self.export_format {
-                                        ExportFormat::Json => "JSON",
-                                        ExportFormat::Csv => "CSV",
-                                    }))
-                                    .show_ui(ui, |ui| {
-                                        ui.selectable_value(&mut self.export_format, ExportFormat::Json, "JSON");
-                                        ui.selectable_value(&mut self.export_format, ExportFormat::Csv, "CSV");
-                                    });
-                            }
-                        );
-                    });
-                }
-            );
+            // App title
+            ui.horizontal(|ui| {
+                ui.heading("> scord");
+            });
             
-            // Add bottom padding
+            ui.add_space(4.0);
+            
+            // Tab bar
+            if let Some(action) = TabBar::show(ui, &mut self.tab_manager) {
+                match action {
+                    TabAction::SwitchTo(index) => {
+                        self.tab_manager.set_active_tab(index);
+                    }
+                    TabAction::Close(index) => {
+                        if self.tab_manager.can_close_tab(index) {
+                            self.tab_manager.close_tab(index);
+                        }
+                    }
+                    TabAction::NewTab => {
+                        self.tab_manager.add_tab();
+                    }
+                }
+            }
+            
             ui.add_space(4.0);
         });
 
+        // Tab-specific content area
+        let (status_message, show_status) = if let Some(active_tab) = self.tab_manager.get_active_tab() {
+            active_tab.content.get_status()
+        } else {
+            ("", false)
+        };
+        
         // Status bar
-        if self.show_status {
+        if show_status {
+            let status_message = status_message.to_string(); // Copy the string
             TopBottomPanel::bottom("status").show(ctx, |ui| {
                 ui.horizontal(|ui| {
-                    ui.label(&self.status_message);
+                    ui.label(&status_message);
                     if ui.button("×").clicked() {
-                        self.show_status = false;
+                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                            tab.content.hide_status();
+                        }
                     }
                 });
             });
         }
+
+        // Export/Import controls
+        TopBottomPanel::top("export_controls").show(ctx, |ui| {
+            ui.horizontal(|ui| {
+                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                    let button_height = ui.spacing().interact_size.y;
+                    
+                    if ui.add_sized([100.0, button_height], egui::Button::new("Export Results")).clicked() {
+                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                            let _ = tab.content.export_results();
+                        }
+                    }
+                    if ui.add_sized([100.0, button_height], egui::Button::new("Export Data")).clicked() {
+                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                            let _ = tab.content.export_data();
+                        }
+                    }
+                    if ui.add_sized([80.0, button_height], egui::Button::new("Import")).clicked() {
+                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                            let _ = tab.content.import_data();
+                        }
+                    }
+                    
+                    ui.add_space(8.0);
+                    
+                    // Export format selector
+                    let current_format = if let Some(tab) = self.tab_manager.get_active_tab() {
+                        tab.content.get_export_format()
+                    } else {
+                        crate::models::ExportFormat::Json
+                    };
+                    
+                    ui.allocate_ui_with_layout(
+                        egui::Vec2::new(120.0, button_height),
+                        egui::Layout::left_to_right(egui::Align::Center),
+                        |ui| {
+                            let mut export_format = current_format;
+                            egui::ComboBox::from_label("")
+                                .selected_text(format!("Format: {}", match export_format {
+                                    crate::models::ExportFormat::Json => "JSON",
+                                    crate::models::ExportFormat::Csv => "CSV",
+                                }))
+                                .show_ui(ui, |ui| {
+                                    ui.selectable_value(&mut export_format, crate::models::ExportFormat::Json, "JSON");
+                                    ui.selectable_value(&mut export_format, crate::models::ExportFormat::Csv, "CSV");
+                                });
+                            
+                            if export_format != current_format {
+                                if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                                    tab.content.set_export_format(export_format);
+                                }
+                            }
+                        }
+                    );
+                });
+            });
+        });
 
         // Controls panel
         TopBottomPanel::top("controls").show(ctx, |ui| {
@@ -336,8 +262,13 @@ impl eframe::App for ScordApp {
         SidePanel::right("results")
             .resizable(true)
             .default_width(320.0)
+            .min_width(200.0)
+            .max_width(600.0)
+            .width_range(200.0..=600.0)
             .show(ctx, |ui| {
-                ResultsPanel::show(ui, &self.score_results);
+                if let Some((_contestants, _properties, score_results)) = self.get_active_tab_data() {
+                    ResultsPanel::show(ui, score_results);
+                }
             });
 
         // Main spreadsheet

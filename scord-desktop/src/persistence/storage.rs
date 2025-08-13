@@ -19,6 +19,7 @@ impl Default for AppData {
     }
 }
 
+#[derive(Debug)]
 pub struct Storage {
     file_path: PathBuf,
 }

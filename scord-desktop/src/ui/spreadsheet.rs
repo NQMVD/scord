@@ -133,15 +133,9 @@ impl SpreadsheetView {
                     
                     ui.strong("Actions");
                     ui.end_row();
-                    
-                    // Add separator line after header
-                    for _ in 0..=app.properties.len() + 1 {
-                        ui.separator();
-                    }
-                    ui.end_row();
 
                     // Data rows
-                    for (row_index, contestant) in app.contestants.iter().enumerate() {
+                    for contestant in &app.contestants {
                         // Editable contestant name with consistent height and proper text alignment
                         let mut name = contestant.name.clone();
                         egui::Frame::none()
@@ -172,14 +166,6 @@ impl SpreadsheetView {
                         }
                         
                         ui.end_row();
-                        
-                        // Add separator line between rows (except after last row)
-                        if row_index < app.contestants.len() - 1 {
-                            for _ in 0..=app.properties.len() + 1 {
-                                ui.separator();
-                            }
-                            ui.end_row();
-                        }
                     }
                 });
             

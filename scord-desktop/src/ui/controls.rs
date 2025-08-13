@@ -20,13 +20,13 @@ impl ControlsPanel {
                         egui::Vec2::new(180.0, 28.0),
                         egui::Layout::left_to_right(egui::Align::Center),
                         |ui| {
-                            // Use a frame with proper margin to fix text positioning
+                            // Precise vertical centering: total height 28 = 20 + top6 + bottom2
                             egui::Frame::none()
-                                .inner_margin(egui::Margin::symmetric(0.0, 3.0)) // Add vertical margin to center text
+                                .inner_margin(egui::Margin { left: 0.0, right: 0.0, top: 6.0, bottom: 2.0 })
                                 .show(ui, |ui| {
                                     let mut textbox = egui::TextEdit::singleline(&mut app.new_contestant_name)
                                         .desired_width(180.0);
-                                    ui.add_sized([180.0, 22.0], textbox).on_hover_text("Contestant name");
+                                    ui.add_sized([180.0, 20.0], textbox).on_hover_text("Contestant name");
                                 });
                         }
                     );
@@ -51,13 +51,13 @@ impl ControlsPanel {
                         egui::Vec2::new(180.0, 28.0),
                         egui::Layout::left_to_right(egui::Align::Center),
                         |ui| {
-                            // Use a frame with proper margin to fix text positioning
+                            // Precise vertical centering: total height 28 = 20 + top6 + bottom2
                             egui::Frame::none()
-                                .inner_margin(egui::Margin::symmetric(0.0, 3.0)) // Add vertical margin to center text
+                                .inner_margin(egui::Margin { left: 0.0, right: 0.0, top: 6.0, bottom: 2.0 })
                                 .show(ui, |ui| {
                                     let mut textbox = egui::TextEdit::singleline(&mut app.new_property_name)
                                         .desired_width(180.0);
-                                    ui.add_sized([180.0, 22.0], textbox).on_hover_text("Property name");
+                                    ui.add_sized([180.0, 20.0], textbox).on_hover_text("Property name");
                                 });
                         }
                     );

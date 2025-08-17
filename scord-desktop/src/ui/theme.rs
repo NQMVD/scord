@@ -23,88 +23,91 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
     
     let mut style = Style::default();
     
-    // Dark charcoal theme colors - matching webapp exactly
-    let charcoal_950 = Color32::from_rgb(13, 13, 13);    // #0d0d0d - primary background
-    let charcoal_975 = Color32::from_rgb(10, 10, 10);    // #0a0a0a - deeper background  
-    let charcoal_900 = Color32::from_rgb(25, 25, 25);    // #191919 - surface
-    let charcoal_800 = Color32::from_rgb(45, 45, 45);    // #2d2d2d - elevated
-    let charcoal_700 = Color32::from_rgb(63, 63, 63);    // #3f3f3f - borders
-    let charcoal_600 = Color32::from_rgb(93, 93, 93);    // #5d5d5d
-    let charcoal_500 = Color32::from_rgb(109, 109, 109); // #6d6d6d
-    let charcoal_400 = Color32::from_rgb(136, 136, 136); // #888888 - muted text
-    let charcoal_300 = Color32::from_rgb(176, 176, 176); // #b0b0b0 - secondary text
-    let charcoal_200 = Color32::from_rgb(209, 209, 209); // #d1d1d1
-    let charcoal_100 = Color32::from_rgb(232, 232, 232); // #e8e8e8 - primary text
+    // Use configurable colors from VisualConfig
+    let bg_primary = config.get_bg_primary();
+    let bg_surface = config.get_bg_surface();
+    let bg_elevated = config.get_bg_elevated();
+    let bg_extreme = config.get_bg_extreme();
+    let border_default = config.get_border_default();
+    let border_active = config.get_border_active();
+    let border_hover = config.get_border_hover();
+    let text_primary = config.get_text_primary();
+    let text_secondary = config.get_text_secondary();
+    let text_muted = config.get_text_muted();
+    let widget_bg = config.get_widget_bg();
+    let widget_bg_hover = config.get_widget_bg_hover();
+    let widget_bg_active = config.get_widget_bg_active();
+    let selection_bg = config.get_selection_bg();
 
     style.visuals = Visuals {
         dark_mode: true,
-        override_text_color: Some(charcoal_100),
+        override_text_color: Some(text_primary),
         
-        // Window and panel colors - match webapp backgrounds
-        window_fill: charcoal_950,
-        panel_fill: charcoal_950, // Primary background like webapp
+        // Window and panel colors - use configurable backgrounds
+        window_fill: bg_primary,
+        panel_fill: bg_primary,
         
-        // Widget colors - match webapp interactivity
+        // Widget colors - use configurable widget colors
         widgets: egui::style::Widgets {
             noninteractive: egui::style::WidgetVisuals {
-                bg_fill: charcoal_950,
-                weak_bg_fill: charcoal_900,
-                bg_stroke: Stroke::new(config.border_width, charcoal_700),
+                bg_fill: bg_primary,
+                weak_bg_fill: bg_surface,
+                bg_stroke: Stroke::new(config.border_width, border_default),
                 rounding: config.get_rounding(),
-                fg_stroke: Stroke::new(1.0, charcoal_300),
+                fg_stroke: Stroke::new(1.0, text_secondary),
                 expansion: 0.0,
             },
             inactive: egui::style::WidgetVisuals {
-                bg_fill: charcoal_900, // Surface color like webapp
-                weak_bg_fill: charcoal_800,
-                bg_stroke: Stroke::new(config.border_width, charcoal_800), // Darker border - less bright
+                bg_fill: widget_bg,
+                weak_bg_fill: bg_elevated,
+                bg_stroke: Stroke::new(config.border_width, border_default),
                 rounding: config.get_rounding(),
-                fg_stroke: Stroke::new(1.0, charcoal_300),
+                fg_stroke: Stroke::new(1.0, text_secondary),
                 expansion: 0.0,
             },
             hovered: egui::style::WidgetVisuals {
-                bg_fill: charcoal_800, // Elevated on hover like webapp
-                weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(config.border_width, charcoal_600),
+                bg_fill: widget_bg_hover,
+                weak_bg_fill: bg_elevated,
+                bg_stroke: Stroke::new(config.border_width, border_hover),
                 rounding: config.get_rounding(),
-                fg_stroke: Stroke::new(1.0, charcoal_100),
+                fg_stroke: Stroke::new(1.0, text_primary),
                 expansion: config.hover_expansion,
             },
             active: egui::style::WidgetVisuals {
-                bg_fill: charcoal_700,
-                weak_bg_fill: charcoal_600,
-                bg_stroke: Stroke::new(config.active_border_width, charcoal_500),
+                bg_fill: widget_bg_active,
+                weak_bg_fill: bg_elevated,
+                bg_stroke: Stroke::new(config.active_border_width, border_active),
                 rounding: config.get_rounding(),
-                fg_stroke: Stroke::new(1.0, charcoal_100),
+                fg_stroke: Stroke::new(1.0, text_primary),
                 expansion: config.active_expansion,
             },
             open: egui::style::WidgetVisuals {
-                bg_fill: charcoal_800,
-                weak_bg_fill: charcoal_700,
-                bg_stroke: Stroke::new(config.border_width, charcoal_600),
+                bg_fill: bg_elevated,
+                weak_bg_fill: bg_elevated,
+                bg_stroke: Stroke::new(config.border_width, border_hover),
                 rounding: config.get_rounding(),
-                fg_stroke: Stroke::new(1.0, charcoal_100),
+                fg_stroke: Stroke::new(1.0, text_primary),
                 expansion: 0.0,
             },
         },
         
-        // Selection colors - match webapp highlight
+        // Selection colors - use configurable selection
         selection: egui::style::Selection {
-            bg_fill: charcoal_800,
-            stroke: Stroke::new(1.0, charcoal_600),
+            bg_fill: selection_bg,
+            stroke: Stroke::new(1.0, border_hover),
         },
         
-        // Hyperlink colors - use webapp accent colors
-        hyperlink_color: charcoal_500,
+        // Hyperlink colors - use configurable text color
+        hyperlink_color: text_muted,
         
-        // Background colors - match webapp layering
-        faint_bg_color: charcoal_900,
-        extreme_bg_color: charcoal_975,
-        code_bg_color: charcoal_900,
+        // Background colors - use configurable backgrounds
+        faint_bg_color: bg_surface,
+        extreme_bg_color: bg_extreme,
+        code_bg_color: bg_surface,
         
-        // Warning colors
-        warn_fg_color: Color32::from_rgb(255, 165, 0),
-        error_fg_color: Color32::from_rgb(255, 100, 100),
+        // Warning colors - use configurable status colors
+        warn_fg_color: config.get_warning_color(),
+        error_fg_color: config.get_error_color(),
         
         // Window shadow
         window_shadow: config.get_shadow(),
@@ -126,7 +129,7 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
         
         // Text cursor
         text_cursor: egui::style::TextCursorStyle {
-            stroke: Stroke::new(2.0, charcoal_100),
+            stroke: Stroke::new(2.0, text_primary),
             preview: false,
             blink: true,
             on_duration: 1.0,
@@ -167,7 +170,7 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
         window_rounding: Rounding::same(config.window_rounding),
         
         // Window stroke
-        window_stroke: Stroke::new(1.0, charcoal_700),
+        window_stroke: Stroke::new(1.0, border_default),
         
         // Window highlight topmost
         window_highlight_topmost: true,

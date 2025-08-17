@@ -69,6 +69,11 @@ pub struct VisualConfig {
     // Selection grayscale value
     pub selection_bg: u8,
     
+    // Accent colors (purple from design)
+    pub accent_r: u8,
+    pub accent_g: u8,
+    pub accent_b: u8,
+    
     // Status colors (these can remain RGB for colored warnings/errors)
     pub error_r: u8,
     pub error_g: u8,
@@ -82,11 +87,11 @@ pub struct VisualConfig {
 impl Default for VisualConfig {
     fn default() -> Self {
         Self {
-            // Corner radius - unified system
-            corner_radius: 8.0,
-            button_corner_radius: 8.0,
-            panel_corner_radius: 8.0,
-            tab_corner_radius: 8.0,
+            // Corner radius - unified system, more rounded like design
+            corner_radius: 12.0,
+            button_corner_radius: 12.0,
+            panel_corner_radius: 12.0,
+            tab_corner_radius: 12.0,
             
             // Spacing system
             base_spacing: 8.0,
@@ -122,29 +127,32 @@ impl Default for VisualConfig {
             animation_duration: 0.15,
             smooth_scrolling: true,
             
-            // Color system - Grayscale values (charcoal theme)
-            bg_primary: 13,    // charcoal_950
-            bg_surface: 25,    // charcoal_900
-            bg_elevated: 45,   // charcoal_800
-            bg_extreme: 10,    // charcoal_975
+            // Color system - Dark theme matching design image
+            bg_primary: 13,    // Exact #0D0D0D background
+            bg_surface: 18,    // Slightly lighter surface
+            bg_elevated: 23,   // Elevated elements
+            bg_extreme: 8,     // Deepest background
             
             // Border grayscale values
-            border_default: 63,  // charcoal_700
-            border_active: 109,  // charcoal_500
-            border_hover: 93,    // charcoal_600
+            border_default: 40,  // Subtle borders
+            border_active: 132,  // Purple accent for active borders
+            border_hover: 60,    // Hover borders
             
             // Text grayscale values
-            text_primary: 232,   // charcoal_100
-            text_secondary: 176, // charcoal_300
-            text_muted: 136,     // charcoal_400
+            text_primary: 245,   // Very light text
+            text_secondary: 180, // Secondary text
+            text_muted: 120,     // Muted text
             
             // Interactive element grayscale values
-            widget_bg: 25,        // charcoal_900
-            widget_bg_hover: 45,  // charcoal_800
-            widget_bg_active: 63, // charcoal_700
+            widget_bg: 25,        // Widget background
+            widget_bg_hover: 35,  // Widget hover
+            widget_bg_active: 45, // Widget active
             
             // Selection grayscale value
-            selection_bg: 45,     // charcoal_800
+            selection_bg: 40,     // Selection background
+            
+            // Accent colors - purple from design image
+            accent_r: 132, accent_g: 126, accent_b: 255,
             
             // Status colors
             error_r: 255, error_g: 100, error_b: 100,
@@ -297,6 +305,10 @@ impl VisualConfig {
         egui::Color32::from_rgb(self.warning_r, self.warning_g, self.warning_b)
     }
     
+    pub fn get_accent_color(&self) -> egui::Color32 {
+        egui::Color32::from_rgb(self.accent_r, self.accent_g, self.accent_b)
+    }
+    
     // Preset configurations
     pub fn minimal() -> Self {
         let mut config = Self::default();
@@ -308,6 +320,9 @@ impl VisualConfig {
         config.hover_expansion = 0.0;
         config.active_expansion = 0.0;
         config.button_hover_lift = false;
+        config.accent_r = 132;
+        config.accent_g = 126;
+        config.accent_b = 255;
         config
     }
     
@@ -319,6 +334,9 @@ impl VisualConfig {
         config.tab_corner_radius = 12.0;
         config.window_rounding = 12.0;
         config.shadow_blur = 12.0;
+        config.accent_r = 132;
+        config.accent_g = 126;
+        config.accent_b = 255;
         config
     }
     
@@ -334,6 +352,9 @@ impl VisualConfig {
         config.heading_font_size = 18.0;
         config.button_font_size = 13.0;
         config.small_font_size = 11.0;
+        config.accent_r = 132;
+        config.accent_g = 126;
+        config.accent_b = 255;
         config
     }
     
@@ -349,6 +370,9 @@ impl VisualConfig {
         config.heading_font_size = 26.0;
         config.button_font_size = 17.0;
         config.small_font_size = 15.0;
+        config.accent_r = 132;
+        config.accent_g = 126;
+        config.accent_b = 255;
         config
     }
 }

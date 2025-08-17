@@ -7,6 +7,7 @@ pub struct SpreadsheetView;
 
 impl SpreadsheetView {
     pub fn show(ui: &mut Ui, app: &mut ScordApp, config: &VisualConfig) {
+        ui.add_space(8.0); // Add consistent top spacing
         ui.heading("Contestant Data");
         
         ScrollArea::both().show(ui, |ui| {
@@ -36,8 +37,8 @@ impl SpreadsheetView {
 
             Grid::new("spreadsheet_grid")
                 .striped(false) // Disable alternating row colors
-                .spacing(egui::vec2(8.0, 4.0)) // Add spacing between rows and columns
-                .min_col_width(120.0) // Make columns wider
+                .spacing(egui::vec2(12.0, 8.0)) // Better spacing between rows and columns
+                .min_col_width(130.0) // Make columns wider for better readability
                 .show(ui, |ui| {
                     // Header row
                     ui.strong("Contestant");
@@ -46,29 +47,29 @@ impl SpreadsheetView {
                         ui.vertical(|ui| {
                             ui.set_min_width(150.0); // Even wider for property columns
                             
-                            // Editable property name with consistent height and proper text alignment
+                            // Property name input - full width
                             let mut name = property.name.clone();
-                            egui::Frame::none()
-                                .inner_margin(egui::Margin::symmetric(0.0, 3.0)) // Fix text vertical alignment
-                                .show(ui, |ui| {
-                                    let mut textbox = egui::TextEdit::singleline(&mut name);
-                                    let response = ui.add_sized([ui.available_width(), 22.0], textbox);
-                                    if response.changed() {
-                                        property_updates.borrow_mut().push((
-                                            property.id, 
-                                            name, 
-                                            property.weight, 
-                                            property.higher_is_better
-                                        ));
-                                    }
-                                });
+                            let textbox = egui::TextEdit::singleline(&mut name)
+                                .vertical_align(egui::Align::Center)
+                                .margin(egui::Margin::symmetric(8.0, 0.0))
+                                .font(egui::TextStyle::Button);
+                            let response = ui.add_sized([ui.available_width(), 32.0], textbox);
+                            if response.changed() {
+                                property_updates.borrow_mut().push((
+                                    property.id, 
+                                    name, 
+                                    property.weight, 
+                                    property.higher_is_better
+                                ));
+                            }
                             
-                            // Weight and direction controls with proper alignment
-                            let size = egui::Vec2::new(ui.available_width(), ui.spacing().interact_size.y + 4.0);
-                            ui.allocate_ui_with_layout(size, egui::Layout::left_to_right(egui::Align::Center), |ui| {
-                                ui.label("Weight:");
+                            ui.add_space(4.0); // Small spacing
+                            
+                            // Controls in single horizontal line: [Weight Input] [Direction] [Delete]
+                            ui.horizontal(|ui| {
+                                // Weight input - half width
                                 let mut weight = property.weight;
-                                if ui.add_sized([80.0, 20.0], egui::DragValue::new(&mut weight)
+                                if ui.add_sized([45.0, 32.0], egui::DragValue::new(&mut weight)
                                     .speed(0.1)
                                     .range(0.1..=10.0)
                                     .fixed_decimals(1)).changed() {
@@ -80,44 +81,33 @@ impl SpreadsheetView {
                                     ));
                                 }
                                 
-                                let tooltip = if property.higher_is_better { 
-                                    "Higher is better (click to change)"
-                                } else { 
-                                    "Lower is better (click to change)"
-                                };
+                                ui.add_space(4.0);
                                 
-                                // Custom arrow button with drawing
-                                let desired_size = egui::vec2(20.0, 16.0);
-                                let (rect, response) = ui.allocate_exact_size(desired_size, egui::Sense::click());
+                                // Direction button - square, icon only
+                                let direction_response = ui.add_sized([32.0, 32.0], egui::Button::new(""));
                                 
-                                if ui.is_rect_visible(rect) {
-                                    let visuals = ui.style().interact(&response);
-                                    
-                                    // Draw button background
-                                    ui.painter().rect_filled(rect, config.corner_radius, visuals.bg_fill);
-                                    ui.painter().rect_stroke(rect, config.corner_radius, visuals.bg_stroke);
-                                    
-                                    // Draw arrow triangle
-                                    let center = rect.center();
-                                    let size = 4.0;
-                                    let color = visuals.text_color();
+                                // Draw custom arrow on the button
+                                if ui.is_rect_visible(direction_response.rect) {
+                                    let center = direction_response.rect.center();
+                                    let arrow_size = 6.0;
+                                    let color = ui.style().visuals.text_color();
                                     
                                     if property.higher_is_better {
-                                        // Up arrow triangle
+                                        // Up arrow
                                         let points = vec![
-                                            egui::pos2(center.x, center.y - size),
-                                            egui::pos2(center.x - size, center.y + size),
-                                            egui::pos2(center.x + size, center.y + size),
+                                            egui::pos2(center.x, center.y - arrow_size),
+                                            egui::pos2(center.x - arrow_size, center.y + arrow_size),
+                                            egui::pos2(center.x + arrow_size, center.y + arrow_size),
                                         ];
                                         ui.painter().add(egui::Shape::convex_polygon(
                                             points, color, egui::Stroke::NONE
                                         ));
                                     } else {
-                                        // Down arrow triangle
+                                        // Down arrow
                                         let points = vec![
-                                            egui::pos2(center.x, center.y + size),
-                                            egui::pos2(center.x - size, center.y - size),
-                                            egui::pos2(center.x + size, center.y - size),
+                                            egui::pos2(center.x, center.y + arrow_size),
+                                            egui::pos2(center.x - arrow_size, center.y - arrow_size),
+                                            egui::pos2(center.x + arrow_size, center.y - arrow_size),
                                         ];
                                         ui.painter().add(egui::Shape::convex_polygon(
                                             points, color, egui::Stroke::NONE
@@ -125,7 +115,7 @@ impl SpreadsheetView {
                                     }
                                 }
                                 
-                                if response.clicked() {
+                                if direction_response.clicked() {
                                     property_updates.borrow_mut().push((
                                         property.id, 
                                         property.name.clone(), 
@@ -134,13 +124,21 @@ impl SpreadsheetView {
                                     ));
                                 }
                                 
-                                response.on_hover_text(tooltip);
+                                let tooltip = if property.higher_is_better { 
+                                    "Higher is better (click to change)"
+                                } else { 
+                                    "Lower is better (click to change)"
+                                };
+                                direction_response.on_hover_text(tooltip);
+                                
+                                ui.add_space(4.0);
+                                
+                                // Delete button - square, icon only
+                                if ui.add_sized([32.0, 32.0], egui::Button::new("×")).on_hover_text("Delete property").clicked() {
+                                    properties_to_delete.borrow_mut().push(property.id);
+                                }
                             });
-                            
-                            // Delete button
-                            if ui.small_button("× Delete").clicked() {
-                                properties_to_delete.borrow_mut().push(property.id);
-                            }                        });
+                        });
                     }
                     
                     ui.strong("Actions");
@@ -150,22 +148,20 @@ impl SpreadsheetView {
                     for contestant in contestants {
                         // Editable contestant name with consistent height and proper text alignment
                         let mut name = contestant.name.clone();
-                        egui::Frame::none()
-                            .inner_margin(egui::Margin::symmetric(0.0, 3.0)) // Fix text vertical alignment
-                            .show(ui, |ui| {
-                                let mut textbox = egui::TextEdit::singleline(&mut name);
-                                let response = ui.add_sized([ui.available_width(), 22.0], textbox);
-                                if response.changed() {
-                                    contestant_name_updates.borrow_mut().push((contestant.id, name));
-                                }
-                            });
+                        let textbox = egui::TextEdit::singleline(&mut name)
+                            .vertical_align(egui::Align::Center)
+                            .margin(egui::Margin::symmetric(8.0, 0.0));
+                        let response = ui.add_sized([ui.available_width(), 32.0], textbox);
+                        if response.changed() {
+                            contestant_name_updates.borrow_mut().push((contestant.id, name));
+                        }
                         
                         // Values for each property with consistent height
                         for property in properties {
                             let value = contestant.get_value(&property.id);
                             let mut temp_value = value;
                             
-                            if ui.add_sized([ui.available_width(), 20.0], egui::DragValue::new(&mut temp_value)
+                            if ui.add_sized([ui.available_width(), 32.0], egui::DragValue::new(&mut temp_value)
                                 .speed(0.1)
                                 .fixed_decimals(1)).changed() {
                                 value_updates.borrow_mut().push((contestant.id, property.id, temp_value));

@@ -53,19 +53,19 @@ impl TabBar {
             if has_unsaved {
                 Color32::from_rgb(60, 45, 45) // Slightly red tint for unsaved active tab
             } else {
-                ui.style().visuals.panel_fill
+                config.get_bg_elevated() // Use elevated background for active tab
             }
         } else if response.hovered() {
             if has_unsaved {
                 Color32::from_rgb(55, 50, 50) // Slightly red tint for unsaved hovered tab
             } else {
-                Color32::from_gray(50)
+                config.get_bg_surface() // Use surface background for hovered tab
             }
         } else {
             if has_unsaved {
                 Color32::from_rgb(50, 45, 45) // Slightly red tint for unsaved tab
             } else {
-                Color32::from_gray(40)
+                config.get_bg_primary() // Use primary background for inactive tab
             }
         };
         
@@ -73,13 +73,13 @@ impl TabBar {
             if has_unsaved {
                 Stroke::new(config.active_border_width, Color32::from_rgb(180, 100, 100)) // Red border for unsaved active tab
             } else {
-                Stroke::new(config.border_width, Color32::from_gray(100))
+                Stroke::new(config.active_border_width, config.get_accent_color()) // Purple accent for active tab
             }
         } else {
             if has_unsaved {
                 Stroke::new(config.border_width, Color32::from_rgb(120, 80, 80)) // Dim red border for unsaved tab
             } else {
-                Stroke::new(config.border_width, Color32::from_gray(60))
+                Stroke::new(config.border_width, config.get_border_default()) // Default border for inactive tab
             }
         };
         
@@ -99,9 +99,9 @@ impl TabBar {
         
         // Draw tab text
         let text_color = if is_active {
-            ui.style().visuals.text_color()
+            config.get_text_primary() // Use primary text color for active tab
         } else {
-            Color32::from_gray(180)
+            config.get_text_secondary() // Use secondary text color for inactive tab
         };
         
         ui.allocate_new_ui(egui::UiBuilder::new().max_rect(content_rect), |ui| {
@@ -109,7 +109,7 @@ impl TabBar {
                 ui.add(egui::Label::new(
                     egui::RichText::new(tab.display_name())
                         .color(text_color)
-                        .size(12.0)
+                        .size(14.0) // Increased font size from 12.0 to 14.0
                 ).truncate());
             });
         });

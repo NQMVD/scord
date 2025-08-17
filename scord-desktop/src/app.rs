@@ -150,14 +150,14 @@ impl eframe::App for ScordApp {
 
         // Header with app title and tabs
         TopBottomPanel::top("header").show(ctx, |ui| {
-            ui.add_space(8.0);
+            ui.add_space(12.0);
             
             // App title
             ui.horizontal(|ui| {
                 ui.heading("> scord");
             });
             
-            ui.add_space(4.0);
+            ui.add_space(8.0);
             
             // Tab bar
             if let Some(action) = TabBar::show(ui, &mut self.tab_manager, self.visual_settings.get_config()) {
@@ -176,7 +176,7 @@ impl eframe::App for ScordApp {
                 }
             }
             
-            ui.add_space(4.0);
+            ui.add_space(8.0);
         });
 
         // Tab-specific content area
@@ -203,27 +203,37 @@ impl eframe::App for ScordApp {
 
         // Export/Import controls
         TopBottomPanel::top("export_controls").show(ctx, |ui| {
+            ui.add_space(8.0);
             ui.horizontal(|ui| {
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    let button_height = ui.spacing().interact_size.y;
+                    let button_height = 32.0; // Fixed height for consistent buttons
                     
-                    if ui.add_sized([100.0, button_height], egui::Button::new("Export Results")).clicked() {
+                    // Right margin
+                    ui.add_space(12.0);
+                    
+                    if ui.add_sized([110.0, button_height], egui::Button::new("Export Results")).clicked() {
                         if let Some(tab) = self.tab_manager.get_active_tab_mut() {
                             let _ = tab.content.export_results();
                         }
                     }
+                    
+                    ui.add_space(8.0);
+                    
                     if ui.add_sized([100.0, button_height], egui::Button::new("Export Data")).clicked() {
                         if let Some(tab) = self.tab_manager.get_active_tab_mut() {
                             let _ = tab.content.export_data();
                         }
                     }
+                    
+                    ui.add_space(8.0);
+                    
                     if ui.add_sized([80.0, button_height], egui::Button::new("Import")).clicked() {
                         if let Some(tab) = self.tab_manager.get_active_tab_mut() {
                             let _ = tab.content.import_data();
                         }
                     }
                     
-                    ui.add_space(8.0);
+                    ui.add_space(16.0);
                     
                     // Export format selector
                     let current_format = if let Some(tab) = self.tab_manager.get_active_tab() {
@@ -233,7 +243,7 @@ impl eframe::App for ScordApp {
                     };
                     
                     ui.allocate_ui_with_layout(
-                        egui::Vec2::new(120.0, button_height),
+                        egui::Vec2::new(130.0, button_height),
                         egui::Layout::left_to_right(egui::Align::Center),
                         |ui| {
                             let mut export_format = current_format;
@@ -242,6 +252,7 @@ impl eframe::App for ScordApp {
                                     crate::models::ExportFormat::Json => "JSON",
                                     crate::models::ExportFormat::Csv => "CSV",
                                 }))
+                                .height(button_height)
                                 .show_ui(ui, |ui| {
                                     ui.selectable_value(&mut export_format, crate::models::ExportFormat::Json, "JSON");
                                     ui.selectable_value(&mut export_format, crate::models::ExportFormat::Csv, "CSV");
@@ -256,6 +267,7 @@ impl eframe::App for ScordApp {
                     );
                 });
             });
+            ui.add_space(8.0);
         });
 
         // Controls panel

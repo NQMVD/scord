@@ -29,15 +29,16 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
     let bg_elevated = config.get_bg_elevated();
     let bg_extreme = config.get_bg_extreme();
     let border_default = config.get_border_default();
-    let border_active = config.get_border_active();
+    let _border_active = config.get_border_active();
     let border_hover = config.get_border_hover();
     let text_primary = config.get_text_primary();
     let text_secondary = config.get_text_secondary();
-    let text_muted = config.get_text_muted();
+    let _text_muted = config.get_text_muted();
     let widget_bg = config.get_widget_bg();
     let widget_bg_hover = config.get_widget_bg_hover();
-    let widget_bg_active = config.get_widget_bg_active();
-    let selection_bg = config.get_selection_bg();
+    let _widget_bg_active = config.get_widget_bg_active();
+    let _selection_bg = config.get_selection_bg();
+    let accent_color = config.get_accent_color();
 
     style.visuals = Visuals {
         dark_mode: true,
@@ -68,17 +69,17 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
             hovered: egui::style::WidgetVisuals {
                 bg_fill: widget_bg_hover,
                 weak_bg_fill: bg_elevated,
-                bg_stroke: Stroke::new(config.border_width, border_hover),
+                bg_stroke: Stroke::new(config.border_width, accent_color),
                 rounding: config.get_rounding(),
-                fg_stroke: Stroke::new(1.0, text_primary),
+                fg_stroke: Stroke::new(1.0, accent_color),
                 expansion: config.hover_expansion,
             },
             active: egui::style::WidgetVisuals {
-                bg_fill: widget_bg_active,
+                bg_fill: accent_color,
                 weak_bg_fill: bg_elevated,
-                bg_stroke: Stroke::new(config.active_border_width, border_active),
+                bg_stroke: Stroke::new(config.active_border_width, accent_color),
                 rounding: config.get_rounding(),
-                fg_stroke: Stroke::new(1.0, text_primary),
+                fg_stroke: Stroke::new(1.0, Color32::WHITE),
                 expansion: config.active_expansion,
             },
             open: egui::style::WidgetVisuals {
@@ -91,14 +92,14 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
             },
         },
         
-        // Selection colors - use configurable selection
+        // Selection colors - use accent color
         selection: egui::style::Selection {
-            bg_fill: selection_bg,
-            stroke: Stroke::new(1.0, border_hover),
+            bg_fill: accent_color.gamma_multiply(0.3),
+            stroke: Stroke::new(1.0, accent_color),
         },
         
-        // Hyperlink colors - use configurable text color
-        hyperlink_color: text_muted,
+        // Hyperlink colors - use accent color
+        hyperlink_color: accent_color,
         
         // Background colors - use configurable backgrounds
         faint_bg_color: bg_surface,
@@ -129,7 +130,7 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
         
         // Text cursor
         text_cursor: egui::style::TextCursorStyle {
-            stroke: Stroke::new(2.0, text_primary),
+            stroke: Stroke::new(2.0, accent_color),
             preview: false,
             blink: true,
             on_duration: 1.0,
@@ -203,11 +204,11 @@ pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig
     style.spacing.menu_margin = Margin::same(config.panel_margin);
     style.spacing.indent = 20.0;
     
-    // Text input sizing - make textboxes taller
+    // Text input sizing - improve sizing and alignment
     style.spacing.text_edit_width = 200.0;
     
     // Adjust interact size for different components
-    style.spacing.interact_size = egui::vec2(24.0, 24.0); // Default size
+    style.spacing.interact_size = egui::vec2(32.0, 32.0); // Larger default size for better touch targets
     
     // Use consistent button padding from config
     style.spacing.button_padding = config.get_button_padding();

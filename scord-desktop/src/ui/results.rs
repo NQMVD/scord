@@ -5,6 +5,7 @@ pub struct ResultsPanel;
 
 impl ResultsPanel {
     pub fn show(ui: &mut Ui, score_results: &[ScoreResult]) {
+        ui.add_space(8.0); // Add top spacing to match the main content area
         ui.heading("Scoring Results");
         
         if score_results.is_empty() {

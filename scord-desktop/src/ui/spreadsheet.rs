@@ -27,7 +27,7 @@ impl SpreadsheetView {
                     ui.add_space(4.0);
                     ui.label(egui::RichText::new("Contestant Data")
                         .size(16.0)
-                        .color(Color32::WHITE)
+                        .color(Color32::from_gray(252)) // #fcfcfc - white
                         .strong());
                 });
                 
@@ -60,12 +60,12 @@ impl SpreadsheetView {
                         ui.vertical_centered(|ui| {
                             ui.label(egui::RichText::new("📊 Get Started")
                                 .size(18.0)
-                                .color(Color32::WHITE)
+                                .color(Color32::from_gray(252)) // #fcfcfc - white
                                 .strong());
                             ui.add_space(8.0);
                             ui.label(egui::RichText::new("Add contestants and properties\nto begin scoring")
                                 .size(14.0)
-                                .color(Color32::from_gray(122)));
+                                .color(Color32::from_gray(149))); // #959597 - taupe-gray
                         });
                     });
                 });

@@ -5,6 +5,7 @@ use egui::{Context, CentralPanel, SidePanel, TopBottomPanel};
 pub struct ScordApp {
     tab_manager: TabManager,
     visual_settings: VisualSettingsPanel,
+    controls_panel: ControlsPanel,
 }
 
 
@@ -13,6 +14,7 @@ impl Default for ScordApp {
         Self {
             tab_manager: TabManager::new(),
             visual_settings: VisualSettingsPanel::new(),
+            controls_panel: ControlsPanel::new(),
         }
     }
 }
@@ -163,7 +165,7 @@ impl eframe::App for ScordApp {
                     // App logo/title - dashboard style
                     ui.label(egui::RichText::new("Scord")
                         .size(18.0)
-                        .color(egui::Color32::WHITE)
+                        .color(egui::Color32::from_gray(252)) // #fcfcfc - white
                         .strong());
                     
                     ui.add_space(32.0);
@@ -171,13 +173,13 @@ impl eframe::App for ScordApp {
                     // Dashboard breadcrumb style
                     ui.label(egui::RichText::new("Scoring Dashboard")
                         .size(13.0)
-                        .color(egui::Color32::from_gray(122))); // Dashboard secondary text color
+                        .color(egui::Color32::from_gray(149))); // #959597 - taupe-gray
                     
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                         // Settings button - dashboard style
                         let settings_btn = egui::Button::new(egui::RichText::new("⚙ Settings")
                             .size(14.0)
-                            .color(egui::Color32::WHITE))
+                            .color(egui::Color32::from_gray(252))) // #fcfcfc - white
                             .min_size(egui::vec2(80.0, 32.0))
                             .rounding(egui::Rounding::same(8.0));
                             
@@ -247,7 +249,7 @@ impl eframe::App for ScordApp {
                         // Export Results - primary action
                         let export_results_btn = egui::Button::new(egui::RichText::new("📊 Export Results")
                             .size(14.0)
-                            .color(egui::Color32::WHITE))
+                            .color(egui::Color32::from_gray(252))) // #fcfcfc - white
                             .min_size(egui::vec2(130.0, button_height))
                             .rounding(egui::Rounding::same(8.0));
                             
@@ -262,7 +264,7 @@ impl eframe::App for ScordApp {
                         // Export Data - secondary action
                         let export_data_btn = egui::Button::new(egui::RichText::new("💾 Export Data")
                             .size(14.0)
-                            .color(egui::Color32::from_gray(200)))
+                            .color(egui::Color32::from_gray(149))) // #959597 - taupe-gray
                             .min_size(egui::vec2(110.0, button_height))
                             .rounding(egui::Rounding::same(8.0));
                             
@@ -277,7 +279,7 @@ impl eframe::App for ScordApp {
                         // Import - secondary action
                         let import_btn = egui::Button::new(egui::RichText::new("📁 Import")
                             .size(14.0)
-                            .color(egui::Color32::from_gray(200)))
+                            .color(egui::Color32::from_gray(149))) // #959597 - taupe-gray
                             .min_size(egui::vec2(90.0, button_height))
                             .rounding(egui::Rounding::same(8.0));
                             
@@ -345,7 +347,7 @@ impl eframe::App for ScordApp {
                 .inner_margin(egui::Margin::same(16.0)))
             .show(ctx, |ui| {
                 if let Some((_contestants, _properties, score_results)) = self.get_active_tab_data() {
-                    ResultsPanel::show(ui, score_results);
+                    ResultsPanel::show(ui, score_results, &config);
                 }
             });
 
@@ -357,7 +359,9 @@ impl eframe::App for ScordApp {
             .show(ctx, |ui| {
                 ui.vertical(|ui| {
                     // Controls section
-                    ControlsPanel::show(ui, self);
+                    let mut is_collapsed = self.controls_panel.is_collapsed;
+                    ControlsPanel::show(ui, self, &mut is_collapsed);
+                    self.controls_panel.is_collapsed = is_collapsed;
                     
                     ui.add_space(20.0);
                     

@@ -59,13 +59,13 @@ impl TabBar {
             if has_unsaved {
                 Color32::from_rgb(60, 40, 45) // Red tint for unsaved hovered tab
             } else {
-                Color32::from_gray(35) // Lighter than surface for hover
+                Color32::from_gray(34) // #222224 - raisin-black for hover
             }
         } else {
             if has_unsaved {
                 Color32::from_rgb(50, 35, 40) // Red tint for unsaved tab
             } else {
-                Color32::from_gray(25) // Dashboard surface color
+                Color32::from_gray(27) // #1b1b1d - eerie-black surface color
             }
         };
         
@@ -79,7 +79,7 @@ impl TabBar {
             if has_unsaved {
                 Stroke::new(1.0, Color32::from_rgb(140, 90, 90)) // Dim red border for unsaved tab
             } else {
-                Stroke::new(config.border_width, config.get_border_default()) // Default border for inactive tab
+                Stroke::new(1.0, Color32::from_gray(63)) // #3f3f41 - onyx for inactive tab
             }
         };
         
@@ -100,12 +100,12 @@ impl TabBar {
         // Draw tab text with dashboard styling
         let text_color = if is_active {
             if has_unsaved {
-                Color32::WHITE // White text for unsaved active
+                Color32::from_gray(252) // #fcfcfc - white text for unsaved active
             } else {
-                Color32::WHITE // White text on accent background
+                Color32::from_gray(252) // #fcfcfc - white text on accent background
             }
         } else {
-            Color32::from_gray(200) // Light gray for inactive tabs
+            Color32::from_gray(149) // #959597 - taupe-gray for inactive tabs
         };
         
         ui.allocate_new_ui(egui::UiBuilder::new().max_rect(content_rect), |ui| {

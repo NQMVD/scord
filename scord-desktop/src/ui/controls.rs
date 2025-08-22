@@ -2,10 +2,26 @@ use crate::app::ScordApp;
 use crate::models::VisualConfig;
 use egui::{Ui, Color32, Stroke, Rounding, Frame, Margin, Shadow};
 
-pub struct ControlsPanel;
+pub struct ControlsPanel {
+    pub is_collapsed: bool,
+}
+
+impl Default for ControlsPanel {
+    fn default() -> Self {
+        Self {
+            is_collapsed: false,
+        }
+    }
+}
 
 impl ControlsPanel {
-    pub fn show(ui: &mut Ui, app: &mut ScordApp) {
+    pub fn new() -> Self {
+        Self::default()
+    }
+}
+
+impl ControlsPanel {
+    pub fn show(ui: &mut Ui, app: &mut ScordApp, is_collapsed: &mut bool) {
         let config = &crate::models::VisualConfig::load();
         
         // Dashboard-style card container
@@ -23,19 +39,30 @@ impl ControlsPanel {
             
         card_frame.show(ui, |ui| {
             ui.vertical(|ui| {
-                // Card header
+                // Card header with collapse button
                 ui.horizontal(|ui| {
                     ui.add_space(4.0);
                     ui.label(egui::RichText::new("Add New Items")
                         .size(16.0)
                         .color(config.get_text_primary())
                         .strong());
+                    
+                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                        let collapse_btn = egui::Button::new(if *is_collapsed { "▶" } else { "▼" })
+                            .min_size(egui::vec2(24.0, 24.0))
+                            .rounding(Rounding::same(6.0));
+                            
+                        if ui.add(collapse_btn).clicked() {
+                            *is_collapsed = !*is_collapsed;
+                        }
+                    });
                 });
                 
-                ui.add_space(16.0);
-                
-                // Contestant section - dashboard card style
-                Self::show_section_card(ui, config, "Contestant", |ui| {
+                if !*is_collapsed {
+                    ui.add_space(16.0);
+                    
+                    // Contestant section - dashboard card style
+                    Self::show_section_card(ui, config, "Contestant", |ui| {
                     ui.horizontal(|ui| {
                         if let Some((new_contestant_name, _, _, _)) = app.get_active_tab_ui_state_mut() {
                             let text_edit = egui::TextEdit::singleline(new_contestant_name)
@@ -58,65 +85,66 @@ impl ControlsPanel {
                             app.add_contestant();
                         }
                     });
-                });
-
-                ui.add_space(16.0);
-
-                // Property section - dashboard card style
-                Self::show_section_card(ui, config, "Property", |ui| {
-                    ui.horizontal(|ui| {
-                        if let Some((_, new_property_name, _, _)) = app.get_active_tab_ui_state_mut() {
-                            let text_edit = egui::TextEdit::singleline(new_property_name)
-                                .hint_text("Enter property name...")
-                                .desired_width(160.0)
-                                .font(egui::TextStyle::Body);
-                            ui.add_sized([160.0, 36.0], text_edit);
-                        }
-                        
-                        ui.add_space(12.0);
-                        
-                        if let Some((_, _, new_property_weight, _)) = app.get_active_tab_ui_state_mut() {
-                            let weight_frame = Frame::none()
-                                .fill(config.get_bg_elevated())
-                                .stroke(Stroke::new(1.0, config.get_border_default()))
-                                .rounding(Rounding::same(8.0))
-                                .inner_margin(Margin::symmetric(12.0, 8.0));
-                                
-                            weight_frame.show(ui, |ui| {
-                                ui.add_sized([100.0, 20.0], egui::DragValue::new(new_property_weight)
-                                    .speed(0.1)
-                                    .range(0.1..=10.0)
-                                    .prefix("Weight: "));
-                            });
-                        }
-                        
-                        ui.add_space(12.0);
-                        
-                        if let Some((_, _, _, new_property_higher_is_better)) = app.get_active_tab_ui_state_mut() {
-                            let checkbox_frame = Frame::none()
-                                .fill(config.get_bg_elevated())
-                                .stroke(Stroke::new(1.0, config.get_border_default()))
-                                .rounding(Rounding::same(8.0))
-                                .inner_margin(Margin::symmetric(12.0, 8.0));
-                                
-                            checkbox_frame.show(ui, |ui| {
-                                ui.checkbox(new_property_higher_is_better, "Higher is better");
-                            });
-                        }
-                        
-                        ui.add_space(12.0);
-                        
-                        let add_btn = egui::Button::new(egui::RichText::new("Add Property")
-                            .size(14.0)
-                            .color(Color32::WHITE))
-                            .min_size(egui::vec2(110.0, 36.0))
-                            .rounding(Rounding::same(8.0));
-                            
-                        if ui.add(add_btn).clicked() {
-                            app.add_property();
-                        }
                     });
-                });
+
+                    ui.add_space(16.0);
+
+                    // Property section - dashboard card style
+                    Self::show_section_card(ui, config, "Property", |ui| {
+                        ui.horizontal(|ui| {
+                            if let Some((_, new_property_name, _, _)) = app.get_active_tab_ui_state_mut() {
+                                let text_edit = egui::TextEdit::singleline(new_property_name)
+                                    .hint_text("Enter property name...")
+                                    .desired_width(160.0)
+                                    .font(egui::TextStyle::Body);
+                                ui.add_sized([160.0, 36.0], text_edit);
+                            }
+                            
+                            ui.add_space(12.0);
+                            
+                            if let Some((_, _, new_property_weight, _)) = app.get_active_tab_ui_state_mut() {
+                                let weight_frame = Frame::none()
+                                    .fill(config.get_bg_elevated())
+                                    .stroke(Stroke::new(1.0, config.get_border_default()))
+                                    .rounding(Rounding::same(8.0))
+                                    .inner_margin(Margin::symmetric(12.0, 8.0));
+                                    
+                                weight_frame.show(ui, |ui| {
+                                    ui.add_sized([100.0, 20.0], egui::DragValue::new(new_property_weight)
+                                        .speed(0.1)
+                                        .range(0.1..=10.0)
+                                        .prefix("Weight: "));
+                                });
+                            }
+                            
+                            ui.add_space(12.0);
+                            
+                            if let Some((_, _, _, new_property_higher_is_better)) = app.get_active_tab_ui_state_mut() {
+                                let checkbox_frame = Frame::none()
+                                    .fill(config.get_bg_elevated())
+                                    .stroke(Stroke::new(1.0, config.get_border_default()))
+                                    .rounding(Rounding::same(8.0))
+                                    .inner_margin(Margin::symmetric(12.0, 8.0));
+                                    
+                                checkbox_frame.show(ui, |ui| {
+                                    ui.checkbox(new_property_higher_is_better, "Higher is better");
+                                });
+                            }
+                            
+                            ui.add_space(12.0);
+                            
+                            let add_btn = egui::Button::new(egui::RichText::new("Add Property")
+                                .size(14.0)
+                                .color(Color32::WHITE))
+                                .min_size(egui::vec2(110.0, 36.0))
+                                .rounding(Rounding::same(8.0));
+                                
+                            if ui.add(add_btn).clicked() {
+                                app.add_property();
+                            }
+                        });
+                    });
+                }
             });
         });
     }

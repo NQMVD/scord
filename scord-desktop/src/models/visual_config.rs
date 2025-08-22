@@ -45,29 +45,30 @@ pub struct VisualConfig {
     pub animation_duration: f32,
     pub smooth_scrolling: bool,
     
-    // Color system - Grayscale values (0-255)
-    pub bg_primary: u8,
-    pub bg_surface: u8,
-    pub bg_elevated: u8,
-    pub bg_extreme: u8,
+    // Color system - RGB values for exact color palette
+    // Background colors
+    pub bg_primary_r: u8, pub bg_primary_g: u8, pub bg_primary_b: u8,
+    pub bg_surface_r: u8, pub bg_surface_g: u8, pub bg_surface_b: u8,
+    pub bg_elevated_r: u8, pub bg_elevated_g: u8, pub bg_elevated_b: u8,
+    pub bg_extreme_r: u8, pub bg_extreme_g: u8, pub bg_extreme_b: u8,
     
-    // Border grayscale values
-    pub border_default: u8,
-    pub border_active: u8,
-    pub border_hover: u8,
+    // Border colors
+    pub border_default_r: u8, pub border_default_g: u8, pub border_default_b: u8,
+    pub border_active_r: u8, pub border_active_g: u8, pub border_active_b: u8,
+    pub border_hover_r: u8, pub border_hover_g: u8, pub border_hover_b: u8,
     
-    // Text grayscale values
-    pub text_primary: u8,
-    pub text_secondary: u8,
-    pub text_muted: u8,
+    // Text colors
+    pub text_primary_r: u8, pub text_primary_g: u8, pub text_primary_b: u8,
+    pub text_secondary_r: u8, pub text_secondary_g: u8, pub text_secondary_b: u8,
+    pub text_muted_r: u8, pub text_muted_g: u8, pub text_muted_b: u8,
     
-    // Interactive element grayscale values
-    pub widget_bg: u8,
-    pub widget_bg_hover: u8,
-    pub widget_bg_active: u8,
+    // Interactive element colors
+    pub widget_bg_r: u8, pub widget_bg_g: u8, pub widget_bg_b: u8,
+    pub widget_bg_hover_r: u8, pub widget_bg_hover_g: u8, pub widget_bg_hover_b: u8,
+    pub widget_bg_active_r: u8, pub widget_bg_active_g: u8, pub widget_bg_active_b: u8,
     
-    // Selection grayscale value
-    pub selection_bg: u8,
+    // Selection color
+    pub selection_bg_r: u8, pub selection_bg_g: u8, pub selection_bg_b: u8,
     
     // Accent colors (purple from design)
     pub accent_r: u8,
@@ -127,29 +128,30 @@ impl Default for VisualConfig {
             animation_duration: 0.15,
             smooth_scrolling: true,
             
-            // Color system - Dashboard dark theme (#0F0F10, #18191A, #2A2B2C, #FFFFFF, #7A7A7D)
-            bg_primary: 15,    // #0F0F10 - Main background
-            bg_surface: 25,    // #18191A - Sidebar/card background  
-            bg_elevated: 43,   // #2A2B2C - Elevated elements/borders
-            bg_extreme: 12,    // Slightly darker than primary
+            // Exact color palette - night: #151517, eerie-black: #1b1b1d, raisin-black: #222224, raisin-black-2: #28282a, onyx: #3f3f41, onyx-2: #434345, taupe-gray: #959597, white: #fcfcfc
+            // Background colors
+            bg_primary_r: 0x15, bg_primary_g: 0x15, bg_primary_b: 0x17,       // #151517 - night
+            bg_surface_r: 0x1b, bg_surface_g: 0x1b, bg_surface_b: 0x1d,       // #1b1b1d - eerie-black
+            bg_elevated_r: 0x22, bg_elevated_g: 0x22, bg_elevated_b: 0x24,     // #222224 - raisin-black
+            bg_extreme_r: 0x28, bg_extreme_g: 0x28, bg_extreme_b: 0x2a,        // #28282a - raisin-black-2
             
-            // Border grayscale values
-            border_default: 43,  // #2A2B2C - Default borders
-            border_active: 122,  // Secondary text color for active borders
-            border_hover: 60,    // Slightly lighter hover borders
+            // Border colors
+            border_default_r: 0x3f, border_default_g: 0x3f, border_default_b: 0x41,  // #3f3f41 - onyx
+            border_active_r: 0x95, border_active_g: 0x95, border_active_b: 0x97,     // #959597 - taupe-gray
+            border_hover_r: 0x43, border_hover_g: 0x43, border_hover_b: 0x45,        // #434345 - onyx-2
             
-            // Text grayscale values
-            text_primary: 255,   // #FFFFFF - Primary white text
-            text_secondary: 122, // #7A7A7D - Secondary gray text  
-            text_muted: 100,     // Darker muted text
+            // Text colors
+            text_primary_r: 0xfc, text_primary_g: 0xfc, text_primary_b: 0xfc,        // #fcfcfc - white
+            text_secondary_r: 0x95, text_secondary_g: 0x95, text_secondary_b: 0x97,  // #959597 - taupe-gray
+            text_muted_r: 0x70, text_muted_g: 0x70, text_muted_b: 0x72,              // Muted between taupe-gray and onyx-2
             
-            // Interactive element grayscale values
-            widget_bg: 25,        // #18191A - Widget background (same as surface)
-            widget_bg_hover: 35,  // Slightly lighter on hover
-            widget_bg_active: 43, // #2A2B2C - Active state
+            // Interactive element colors
+            widget_bg_r: 0x1b, widget_bg_g: 0x1b, widget_bg_b: 0x1d,                // #1b1b1d - eerie-black
+            widget_bg_hover_r: 0x22, widget_bg_hover_g: 0x22, widget_bg_hover_b: 0x24,  // #222224 - raisin-black
+            widget_bg_active_r: 0x28, widget_bg_active_g: 0x28, widget_bg_active_b: 0x2a, // #28282a - raisin-black-2
             
-            // Selection grayscale value
-            selection_bg: 43,     // #2A2B2C - Selection background
+            // Selection color
+            selection_bg_r: 0x22, selection_bg_g: 0x22, selection_bg_b: 0x24,        // #222224 - raisin-black
             
             // Accent colors - purple from design image
             accent_r: 132, accent_g: 126, accent_b: 255,
@@ -240,61 +242,61 @@ impl VisualConfig {
         }
     }
     
-    // Color helper methods - convert grayscale to RGB
+    // Color helper methods - return RGB colors
     pub fn get_bg_primary(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.bg_primary)
+        egui::Color32::from_rgb(self.bg_primary_r, self.bg_primary_g, self.bg_primary_b)
     }
     
     pub fn get_bg_surface(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.bg_surface)
+        egui::Color32::from_rgb(self.bg_surface_r, self.bg_surface_g, self.bg_surface_b)
     }
     
     pub fn get_bg_elevated(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.bg_elevated)
+        egui::Color32::from_rgb(self.bg_elevated_r, self.bg_elevated_g, self.bg_elevated_b)
     }
     
     pub fn get_bg_extreme(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.bg_extreme)
+        egui::Color32::from_rgb(self.bg_extreme_r, self.bg_extreme_g, self.bg_extreme_b)
     }
     
     pub fn get_border_default(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.border_default)
+        egui::Color32::from_rgb(self.border_default_r, self.border_default_g, self.border_default_b)
     }
     
     pub fn get_border_active(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.border_active)
+        egui::Color32::from_rgb(self.border_active_r, self.border_active_g, self.border_active_b)
     }
     
     pub fn get_border_hover(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.border_hover)
+        egui::Color32::from_rgb(self.border_hover_r, self.border_hover_g, self.border_hover_b)
     }
     
     pub fn get_text_primary(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.text_primary)
+        egui::Color32::from_rgb(self.text_primary_r, self.text_primary_g, self.text_primary_b)
     }
     
     pub fn get_text_secondary(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.text_secondary)
+        egui::Color32::from_rgb(self.text_secondary_r, self.text_secondary_g, self.text_secondary_b)
     }
     
     pub fn get_text_muted(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.text_muted)
+        egui::Color32::from_rgb(self.text_muted_r, self.text_muted_g, self.text_muted_b)
     }
     
     pub fn get_widget_bg(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.widget_bg)
+        egui::Color32::from_rgb(self.widget_bg_r, self.widget_bg_g, self.widget_bg_b)
     }
     
     pub fn get_widget_bg_hover(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.widget_bg_hover)
+        egui::Color32::from_rgb(self.widget_bg_hover_r, self.widget_bg_hover_g, self.widget_bg_hover_b)
     }
     
     pub fn get_widget_bg_active(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.widget_bg_active)
+        egui::Color32::from_rgb(self.widget_bg_active_r, self.widget_bg_active_g, self.widget_bg_active_b)
     }
     
     pub fn get_selection_bg(&self) -> egui::Color32 {
-        egui::Color32::from_gray(self.selection_bg)
+        egui::Color32::from_rgb(self.selection_bg_r, self.selection_bg_g, self.selection_bg_b)
     }
     
     pub fn get_error_color(&self) -> egui::Color32 {
@@ -386,17 +388,30 @@ impl VisualConfig {
         config.window_rounding = 12.0;
         config.shadow_blur = 12.0;
         
-        // Dashboard colors (#0F0F10, #18191A, #2A2B2C, #FFFFFF, #7A7A7D)
-        config.bg_primary = 15;
-        config.bg_surface = 25;
-        config.bg_elevated = 43;
-        config.bg_extreme = 12;
-        config.border_default = 43;
-        config.text_primary = 255;
-        config.text_secondary = 122;
-        config.widget_bg = 25;
-        config.widget_bg_hover = 35;
-        config.widget_bg_active = 43;
+        // Exact color palette - night: #151517, eerie-black: #1b1b1d, raisin-black: #222224, raisin-black-2: #28282a, onyx: #3f3f41, onyx-2: #434345, taupe-gray: #959597, white: #fcfcfc
+        // Background colors
+        config.bg_primary_r = 0x15; config.bg_primary_g = 0x15; config.bg_primary_b = 0x17;       // #151517 - night
+        config.bg_surface_r = 0x1b; config.bg_surface_g = 0x1b; config.bg_surface_b = 0x1d;       // #1b1b1d - eerie-black
+        config.bg_elevated_r = 0x22; config.bg_elevated_g = 0x22; config.bg_elevated_b = 0x24;     // #222224 - raisin-black
+        config.bg_extreme_r = 0x28; config.bg_extreme_g = 0x28; config.bg_extreme_b = 0x2a;        // #28282a - raisin-black-2
+        
+        // Border colors
+        config.border_default_r = 0x3f; config.border_default_g = 0x3f; config.border_default_b = 0x41;  // #3f3f41 - onyx
+        config.border_active_r = 0x95; config.border_active_g = 0x95; config.border_active_b = 0x97;     // #959597 - taupe-gray
+        config.border_hover_r = 0x43; config.border_hover_g = 0x43; config.border_hover_b = 0x45;        // #434345 - onyx-2
+        
+        // Text colors
+        config.text_primary_r = 0xfc; config.text_primary_g = 0xfc; config.text_primary_b = 0xfc;        // #fcfcfc - white
+        config.text_secondary_r = 0x95; config.text_secondary_g = 0x95; config.text_secondary_b = 0x97;  // #959597 - taupe-gray
+        config.text_muted_r = 0x70; config.text_muted_g = 0x70; config.text_muted_b = 0x72;              // Muted between taupe-gray and onyx-2
+        
+        // Interactive element colors
+        config.widget_bg_r = 0x1b; config.widget_bg_g = 0x1b; config.widget_bg_b = 0x1d;                // #1b1b1d - eerie-black
+        config.widget_bg_hover_r = 0x22; config.widget_bg_hover_g = 0x22; config.widget_bg_hover_b = 0x24;  // #222224 - raisin-black
+        config.widget_bg_active_r = 0x28; config.widget_bg_active_g = 0x28; config.widget_bg_active_b = 0x2a; // #28282a - raisin-black-2
+        
+        // Selection color
+        config.selection_bg_r = 0x22; config.selection_bg_g = 0x22; config.selection_bg_b = 0x24;        // #222224 - raisin-black
         
         // Dashboard typography (Inter font)
         config.base_font_size = 14.0;

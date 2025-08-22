@@ -37,7 +37,7 @@ impl TabBar {
     }
     
     fn draw_tab(ui: &mut egui::Ui, tab: &Tab, index: usize, width: f32, is_active: bool, config: &VisualConfig) -> Option<TabAction> {
-        let height = 32.0;
+        let height = 36.0; // Taller for dashboard style
         let (rect, response) = ui.allocate_exact_size(Vec2::new(width, height), Sense::click());
         
         let mut action = None;
@@ -46,38 +46,38 @@ impl TabBar {
             action = Some(TabAction::SwitchTo(index));
         }
         
-        // Tab styling with unsaved changes indicator
+        // Dashboard-style tab with stronger visual hierarchy
         let has_unsaved = tab.content.has_unsaved_changes;
         
         let bg_color = if is_active {
             if has_unsaved {
-                Color32::from_rgb(60, 45, 45) // Slightly red tint for unsaved active tab
+                Color32::from_rgb(70, 45, 50) // Red tint for unsaved active tab
             } else {
-                config.get_bg_elevated() // Use elevated background for active tab
+                Color32::from_rgb(132, 126, 255) // Dashboard accent color for active tab
             }
         } else if response.hovered() {
             if has_unsaved {
-                Color32::from_rgb(55, 50, 50) // Slightly red tint for unsaved hovered tab
+                Color32::from_rgb(60, 40, 45) // Red tint for unsaved hovered tab
             } else {
-                config.get_bg_surface() // Use surface background for hovered tab
+                Color32::from_gray(35) // Lighter than surface for hover
             }
         } else {
             if has_unsaved {
-                Color32::from_rgb(50, 45, 45) // Slightly red tint for unsaved tab
+                Color32::from_rgb(50, 35, 40) // Red tint for unsaved tab
             } else {
-                config.get_bg_primary() // Use primary background for inactive tab
+                Color32::from_gray(25) // Dashboard surface color
             }
         };
         
         let stroke = if is_active {
             if has_unsaved {
-                Stroke::new(config.active_border_width, Color32::from_rgb(180, 100, 100)) // Red border for unsaved active tab
+                Stroke::new(2.0, Color32::from_rgb(220, 120, 120)) // Red border for unsaved active tab
             } else {
-                Stroke::new(config.active_border_width, config.get_accent_color()) // Purple accent for active tab
+                Stroke::new(2.0, Color32::from_rgb(132, 126, 255)) // Accent border for active tab
             }
         } else {
             if has_unsaved {
-                Stroke::new(config.border_width, Color32::from_rgb(120, 80, 80)) // Dim red border for unsaved tab
+                Stroke::new(1.0, Color32::from_rgb(140, 90, 90)) // Dim red border for unsaved tab
             } else {
                 Stroke::new(config.border_width, config.get_border_default()) // Default border for inactive tab
             }
@@ -97,11 +97,15 @@ impl TabBar {
             Vec2::new(width - 32.0, height),
         );
         
-        // Draw tab text
+        // Draw tab text with dashboard styling
         let text_color = if is_active {
-            config.get_text_primary() // Use primary text color for active tab
+            if has_unsaved {
+                Color32::WHITE // White text for unsaved active
+            } else {
+                Color32::WHITE // White text on accent background
+            }
         } else {
-            config.get_text_secondary() // Use secondary text color for inactive tab
+            Color32::from_gray(200) // Light gray for inactive tabs
         };
         
         ui.allocate_new_ui(egui::UiBuilder::new().max_rect(content_rect), |ui| {
@@ -109,8 +113,24 @@ impl TabBar {
                 ui.add(egui::Label::new(
                     egui::RichText::new(tab.display_name())
                         .color(text_color)
-                        .size(14.0) // Increased font size from 12.0 to 14.0
+                        .size(14.0)
+                        .strong() // Make text bold for better visibility
                 ).truncate());
+                
+                // Unsaved indicator dot
+                if has_unsaved {
+                    ui.add_space(4.0);
+                    let dot_color = if is_active {
+                        Color32::from_rgb(255, 180, 180)
+                    } else {
+                        Color32::from_rgb(180, 120, 120)
+                    };
+                    ui.painter().circle_filled(
+                        ui.next_widget_position() + Vec2::new(4.0, 0.0),
+                        3.0,
+                        dot_color
+                    );
+                }
             });
         });
         

@@ -148,35 +148,64 @@ impl eframe::App for ScordApp {
             }
         });
 
-        // Header with app title and tabs
+        // Dashboard-style header
         TopBottomPanel::top("header").show(ctx, |ui| {
-            ui.add_space(12.0);
+            let config = self.visual_settings.get_config();
             
-            // App title
-            ui.horizontal(|ui| {
-                ui.heading("> scord");
-            });
-            
-            ui.add_space(8.0);
-            
-            // Tab bar
-            if let Some(action) = TabBar::show(ui, &mut self.tab_manager, self.visual_settings.get_config()) {
-                match action {
-                    TabAction::SwitchTo(index) => {
-                        self.tab_manager.set_active_tab(index);
-                    }
-                    TabAction::Close(index) => {
-                        if self.tab_manager.can_close_tab(index) {
-                            self.tab_manager.close_tab(index);
+            // Header background with dashboard styling
+            let header_frame = egui::Frame::none()
+                .fill(config.get_bg_surface())
+                .stroke(egui::Stroke::new(1.0, config.get_border_default()))
+                .inner_margin(egui::Margin::symmetric(24.0, 16.0));
+                
+            header_frame.show(ui, |ui| {
+                ui.horizontal(|ui| {
+                    // App logo/title - dashboard style
+                    ui.label(egui::RichText::new("Scord")
+                        .size(18.0)
+                        .color(egui::Color32::WHITE)
+                        .strong());
+                    
+                    ui.add_space(32.0);
+                    
+                    // Dashboard breadcrumb style
+                    ui.label(egui::RichText::new("Scoring Dashboard")
+                        .size(13.0)
+                        .color(egui::Color32::from_gray(122))); // Dashboard secondary text color
+                    
+                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                        // Settings button - dashboard style
+                        let settings_btn = egui::Button::new(egui::RichText::new("⚙ Settings")
+                            .size(14.0)
+                            .color(egui::Color32::WHITE))
+                            .min_size(egui::vec2(80.0, 32.0))
+                            .rounding(egui::Rounding::same(8.0));
+                            
+                        if ui.add(settings_btn).clicked() {
+                            self.visual_settings.toggle();
+                        }
+                    });
+                });
+                
+                ui.add_space(12.0);
+                
+                // Tab bar with dashboard styling
+                if let Some(action) = TabBar::show(ui, &mut self.tab_manager, self.visual_settings.get_config()) {
+                    match action {
+                        TabAction::SwitchTo(index) => {
+                            self.tab_manager.set_active_tab(index);
+                        }
+                        TabAction::Close(index) => {
+                            if self.tab_manager.can_close_tab(index) {
+                                self.tab_manager.close_tab(index);
+                            }
+                        }
+                        TabAction::NewTab => {
+                            self.tab_manager.add_tab();
                         }
                     }
-                    TabAction::NewTab => {
-                        self.tab_manager.add_tab();
-                    }
                 }
-            }
-            
-            ui.add_space(8.0);
+            });
         });
 
         // Tab-specific content area
@@ -201,98 +230,141 @@ impl eframe::App for ScordApp {
             });
         }
 
-        // Export/Import controls
-        TopBottomPanel::top("export_controls").show(ctx, |ui| {
-            ui.add_space(8.0);
-            ui.horizontal(|ui| {
-                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    let button_height = 32.0; // Fixed height for consistent buttons
-                    
-                    // Right margin
-                    ui.add_space(12.0);
-                    
-                    if ui.add_sized([110.0, button_height], egui::Button::new("Export Results")).clicked() {
-                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
-                            let _ = tab.content.export_results();
-                        }
-                    }
-                    
-                    ui.add_space(8.0);
-                    
-                    if ui.add_sized([100.0, button_height], egui::Button::new("Export Data")).clicked() {
-                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
-                            let _ = tab.content.export_data();
-                        }
-                    }
-                    
-                    ui.add_space(8.0);
-                    
-                    if ui.add_sized([80.0, button_height], egui::Button::new("Import")).clicked() {
-                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
-                            let _ = tab.content.import_data();
-                        }
-                    }
-                    
-                    ui.add_space(16.0);
-                    
-                    // Export format selector
-                    let current_format = if let Some(tab) = self.tab_manager.get_active_tab() {
-                        tab.content.get_export_format()
-                    } else {
-                        crate::models::ExportFormat::Json
-                    };
-                    
-                    ui.allocate_ui_with_layout(
-                        egui::Vec2::new(130.0, button_height),
-                        egui::Layout::left_to_right(egui::Align::Center),
-                        |ui| {
-                            let mut export_format = current_format;
-                            egui::ComboBox::from_label("")
-                                .selected_text(format!("Format: {}", match export_format {
-                                    crate::models::ExportFormat::Json => "JSON",
-                                    crate::models::ExportFormat::Csv => "CSV",
-                                }))
-                                .height(button_height)
-                                .show_ui(ui, |ui| {
-                                    ui.selectable_value(&mut export_format, crate::models::ExportFormat::Json, "JSON");
-                                    ui.selectable_value(&mut export_format, crate::models::ExportFormat::Csv, "CSV");
-                                });
+        // Dashboard-style toolbar
+        TopBottomPanel::top("toolbar").show(ctx, |ui| {
+            let config = self.visual_settings.get_config();
+            
+            let toolbar_frame = egui::Frame::none()
+                .fill(config.get_bg_elevated())
+                .stroke(egui::Stroke::new(1.0, config.get_border_default()))
+                .inner_margin(egui::Margin::symmetric(24.0, 12.0));
+                
+            toolbar_frame.show(ui, |ui| {
+                ui.horizontal(|ui| {
+                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                        let button_height = 36.0;
+                        
+                        // Export Results - primary action
+                        let export_results_btn = egui::Button::new(egui::RichText::new("📊 Export Results")
+                            .size(14.0)
+                            .color(egui::Color32::WHITE))
+                            .min_size(egui::vec2(130.0, button_height))
+                            .rounding(egui::Rounding::same(8.0));
                             
-                            if export_format != current_format {
-                                if let Some(tab) = self.tab_manager.get_active_tab_mut() {
-                                    tab.content.set_export_format(export_format);
-                                }
+                        if ui.add(export_results_btn).clicked() {
+                            if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                                let _ = tab.content.export_results();
                             }
                         }
-                    );
+                        
+                        ui.add_space(12.0);
+                        
+                        // Export Data - secondary action
+                        let export_data_btn = egui::Button::new(egui::RichText::new("💾 Export Data")
+                            .size(14.0)
+                            .color(egui::Color32::from_gray(200)))
+                            .min_size(egui::vec2(110.0, button_height))
+                            .rounding(egui::Rounding::same(8.0));
+                            
+                        if ui.add(export_data_btn).clicked() {
+                            if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                                let _ = tab.content.export_data();
+                            }
+                        }
+                        
+                        ui.add_space(12.0);
+                        
+                        // Import - secondary action
+                        let import_btn = egui::Button::new(egui::RichText::new("📁 Import")
+                            .size(14.0)
+                            .color(egui::Color32::from_gray(200)))
+                            .min_size(egui::vec2(90.0, button_height))
+                            .rounding(egui::Rounding::same(8.0));
+                            
+                        if ui.add(import_btn).clicked() {
+                            if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                                let _ = tab.content.import_data();
+                            }
+                        }
+                        
+                        ui.add_space(20.0);
+                        
+                        // Format selector - dashboard style dropdown
+                        let current_format = if let Some(tab) = self.tab_manager.get_active_tab() {
+                            tab.content.get_export_format()
+                        } else {
+                            crate::models::ExportFormat::Json
+                        };
+                        
+                        let selector_frame = egui::Frame::none()
+                            .fill(config.get_bg_surface())
+                            .stroke(egui::Stroke::new(1.0, config.get_border_default()))
+                            .rounding(egui::Rounding::same(8.0))
+                            .inner_margin(egui::Margin::symmetric(4.0, 2.0));
+                            
+                        selector_frame.show(ui, |ui| {
+                            ui.allocate_ui_with_layout(
+                                egui::Vec2::new(120.0, button_height - 8.0),
+                                egui::Layout::left_to_right(egui::Align::Center),
+                                |ui| {
+                                    let mut export_format = current_format;
+                                    egui::ComboBox::from_label("")
+                                        .selected_text(format!("Format: {}", match export_format {
+                                            crate::models::ExportFormat::Json => "JSON",
+                                            crate::models::ExportFormat::Csv => "CSV",
+                                        }))
+                                        .show_ui(ui, |ui| {
+                                            ui.selectable_value(&mut export_format, crate::models::ExportFormat::Json, "JSON");
+                                            ui.selectable_value(&mut export_format, crate::models::ExportFormat::Csv, "CSV");
+                                        });
+                                    
+                                    if export_format != current_format {
+                                        if let Some(tab) = self.tab_manager.get_active_tab_mut() {
+                                            tab.content.set_export_format(export_format);
+                                        }
+                                    }
+                                }
+                            );
+                        });
+                    });
                 });
             });
-            ui.add_space(8.0);
         });
 
-        // Controls panel
-        TopBottomPanel::top("controls").show(ctx, |ui| {
-            ControlsPanel::show(ui, self);
-        });
-
-        // Results panel
-        SidePanel::right("results")
+        // Dashboard main content area with sidebar layout
+        let config = self.visual_settings.get_config().clone();
+        
+        // Right sidebar for results - dashboard style
+        SidePanel::right("results_sidebar")
             .resizable(true)
-            .default_width(320.0)
-            .min_width(200.0)
-            .max_width(600.0)
-            .width_range(200.0..=600.0)
+            .default_width(350.0)
+            .min_width(280.0)
+            .max_width(500.0)
+            .frame(egui::Frame::none()
+                .fill(config.get_bg_primary())
+                .inner_margin(egui::Margin::same(16.0)))
             .show(ctx, |ui| {
                 if let Some((_contestants, _properties, score_results)) = self.get_active_tab_data() {
                     ResultsPanel::show(ui, score_results);
                 }
             });
 
-        // Main spreadsheet
-        let config = self.visual_settings.get_config().clone();
-        CentralPanel::default().show(ctx, |ui| {
-            SpreadsheetView::show(ui, self, &config);
-        });
+        // Central content area with dashboard layout
+        CentralPanel::default()
+            .frame(egui::Frame::none()
+                .fill(config.get_bg_primary())
+                .inner_margin(egui::Margin::same(16.0)))
+            .show(ctx, |ui| {
+                ui.vertical(|ui| {
+                    // Controls section
+                    ControlsPanel::show(ui, self);
+                    
+                    ui.add_space(20.0);
+                    
+                    // Main data section
+                    SpreadsheetView::show(ui, self, &config);
+                });
+            });
         
         // Visual settings panel
         if self.visual_settings.show(ctx) {

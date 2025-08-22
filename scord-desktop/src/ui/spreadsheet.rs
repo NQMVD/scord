@@ -1,16 +1,41 @@
 use crate::app::ScordApp;
 use crate::models::VisualConfig;
-use egui::{Ui, ScrollArea, Grid};
+use egui::{Ui, ScrollArea, Grid, Color32, Stroke, Rounding, Frame, Margin, Shadow};
 
 
 pub struct SpreadsheetView;
 
 impl SpreadsheetView {
     pub fn show(ui: &mut Ui, app: &mut ScordApp, config: &VisualConfig) {
-        ui.add_space(8.0); // Add consistent top spacing
-        ui.heading("Contestant Data");
-        
-        ScrollArea::both().show(ui, |ui| {
+        // Dashboard-style main content card
+        let main_card = Frame::none()
+            .fill(config.get_bg_surface())
+            .stroke(Stroke::new(1.0, config.get_border_default()))
+            .rounding(Rounding::same(18.0))
+            .shadow(Shadow {
+                offset: egui::vec2(0.0, 4.0),
+                blur: 12.0,
+                spread: 0.0,
+                color: Color32::from_black_alpha(40),
+            })
+            .inner_margin(Margin::same(24.0));
+            
+        main_card.show(ui, |ui| {
+            ui.vertical(|ui| {
+                // Card header with dashboard styling
+                ui.horizontal(|ui| {
+                    ui.add_space(4.0);
+                    ui.label(egui::RichText::new("Contestant Data")
+                        .size(16.0)
+                        .color(Color32::WHITE)
+                        .strong());
+                });
+                
+                ui.add_space(16.0);
+                
+                ScrollArea::both()
+                    .auto_shrink([false, false])
+                    .show(ui, |ui| {
             // Get active tab data
             let (contestants, properties, _score_results) = match app.get_active_tab_data() {
                 Some(data) => data,
@@ -23,8 +48,26 @@ impl SpreadsheetView {
             };
             
             if contestants.is_empty() && properties.is_empty() {
-                ui.centered_and_justified(|ui| {
-                    ui.label("Add contestants and properties to get started");
+                // Dashboard-style empty state
+                let empty_state_card = Frame::none()
+                    .fill(config.get_bg_elevated())
+                    .stroke(Stroke::new(1.0, config.get_border_default()))
+                    .rounding(Rounding::same(12.0))
+                    .inner_margin(Margin::same(48.0));
+                    
+                empty_state_card.show(ui, |ui| {
+                    ui.centered_and_justified(|ui| {
+                        ui.vertical_centered(|ui| {
+                            ui.label(egui::RichText::new("📊 Get Started")
+                                .size(18.0)
+                                .color(Color32::WHITE)
+                                .strong());
+                            ui.add_space(8.0);
+                            ui.label(egui::RichText::new("Add contestants and properties\nto begin scoring")
+                                .size(14.0)
+                                .color(Color32::from_gray(122)));
+                        });
+                    });
                 });
                 return;
             }
@@ -197,6 +240,8 @@ impl SpreadsheetView {
             for contestant_id in contestants_to_delete.into_inner() {
                 app.delete_contestant(contestant_id);
             }
-        });
+                    });
+                });
+            });
     }
 }

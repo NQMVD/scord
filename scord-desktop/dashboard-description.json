@@ -1,0 +1,1984 @@
+{
+  "version": "0.2",
+  "summary": {
+    "title": "Taskplus Get Started Dashboard",
+    "description": "Dark themed dashboard with left vertical sidebar navigation and main content showing welcome header, progress card, project creation card, and learn section thumbnails."
+  },
+  "canvas": {
+    "aspect_ratio": "4:3 approx",
+    "orientation": "landscape",
+    "device_guess": "desktop",
+    "dimensions_px": {
+      "width": null,
+      "height": null
+    }
+  },
+  "palette": [
+    {
+      "hex": "#0F0F10",
+      "usage": [
+        "background"
+      ],
+      "approx_percentage": 0.55
+    },
+    {
+      "hex": "#18191A",
+      "usage": [
+        "sidebar",
+        "card"
+      ],
+      "approx_percentage": 0.25
+    },
+    {
+      "hex": "#FFFFFF",
+      "usage": [
+        "text",
+        "icon",
+        "progress"
+      ],
+      "approx_percentage": 0.08
+    },
+    {
+      "hex": "#7A7A7D",
+      "usage": [
+        "text"
+      ],
+      "approx_percentage": 0.07
+    },
+    {
+      "hex": "#2A2B2C",
+      "usage": [
+        "border",
+        "divider",
+        "selected"
+      ],
+      "approx_percentage": 0.05
+    }
+  ],
+  "typography": [
+    {
+      "role": "h1",
+      "family_guess": "Inter",
+      "size_px": 28,
+      "weight": 600,
+      "line_height_px": null,
+      "color": "#FFFFFF",
+      "case": "none",
+      "confidence": 0.6
+    },
+    {
+      "role": "body",
+      "family_guess": "Inter",
+      "size_px": 14,
+      "weight": 400,
+      "line_height_px": null,
+      "color": "#7A7A7D",
+      "case": "none",
+      "confidence": 0.6
+    },
+    {
+      "role": "button",
+      "family_guess": "Inter",
+      "size_px": 14,
+      "weight": 500,
+      "line_height_px": null,
+      "color": "#FFFFFF",
+      "case": "none",
+      "confidence": 0.5
+    }
+  ],
+  "regions": [
+    {
+      "id": "r_sidebar",
+      "label": "Sidebar",
+      "bbox": {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.23,
+        "h": 1.0
+      },
+      "background_color": "#18191A",
+      "children": [],
+      "confidence": 0.9
+    },
+    {
+      "id": "r_main",
+      "label": "Main Content",
+      "bbox": {
+        "x": 0.23,
+        "y": 0.0,
+        "w": 0.77,
+        "h": 1.0
+      },
+      "background_color": "#0F0F10",
+      "children": [],
+      "confidence": 0.9
+    }
+  ],
+  "elements": [
+    {
+      "id": "e_logo_text",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.03,
+        "y": 0.03,
+        "w": 0.15,
+        "h": 0.04
+      },
+      "text_ref": "t_logo_text",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 18,
+          "weight": 600
+        }
+      },
+      "confidence": 0.9
+    },
+    {
+      "id": "e_avatar",
+      "kind": "avatar",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.18,
+        "y": 0.03,
+        "w": 0.04,
+        "h": 0.05
+      },
+      "style": {
+        "bg_color": "#2A2B2C",
+        "text_color": null,
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 24
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "e_nav_search",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.12,
+        "w": 0.14,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_search",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_ai",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.165,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_ai",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_get_started",
+      "kind": "container",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.045,
+        "y": 0.21,
+        "w": 0.18,
+        "h": 0.045
+      },
+      "style": {
+        "bg_color": "#2A2B2C",
+        "text_color": null,
+        "border": {
+          "width_px": 1,
+          "color": "#2A2B2C",
+          "radius_px": 6
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 6,
+          "right": 12,
+          "bottom": 6,
+          "left": 12
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.8
+    },
+    {
+      "id": "e_nav_get_started_text",
+      "kind": "text",
+      "parent_id": "e_nav_get_started",
+      "bbox": {
+        "x": 0.055,
+        "y": 0.218,
+        "w": 0.16,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_get_started",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 4,
+          "bottom": 4,
+          "left": 4
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 600
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_templates",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.27,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_templates",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_notification",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.315,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_notification",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_divider",
+      "kind": "divider",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.36,
+        "w": 0.17,
+        "h": 0.002
+      },
+      "style": {
+        "bg_color": "#2A2B2C",
+        "text_color": null,
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "e_nav_dashboard",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.385,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_dashboard",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_inbox",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.43,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_inbox",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_tasks",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.475,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_tasks",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_calendar",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.52,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_calendar",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_reports",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.565,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_reports",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_help",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.61,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_help",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_nav_settings",
+      "kind": "text",
+      "parent_id": "r_sidebar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.655,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "text_ref": "t_nav_settings",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 4,
+          "right": 8,
+          "bottom": 4,
+          "left": 8
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_breadcrumb_get_started",
+      "kind": "text",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.07,
+        "w": 0.18,
+        "h": 0.035
+      },
+      "text_ref": "t_breadcrumb_get_started",
+      "style": {
+        "bg_color": null,
+        "text_color": "#7A7A7D",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 13,
+          "weight": 500
+        }
+      },
+      "confidence": 0.75
+    },
+    {
+      "id": "e_heading_welcome",
+      "kind": "text",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.11,
+        "w": 0.5,
+        "h": 0.06
+      },
+      "text_ref": "t_heading_welcome",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 28,
+          "weight": 600
+        }
+      },
+      "confidence": 0.9
+    },
+    {
+      "id": "e_subheading_welcome",
+      "kind": "text",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.17,
+        "w": 0.6,
+        "h": 0.04
+      },
+      "text_ref": "t_subheading_welcome",
+      "style": {
+        "bg_color": null,
+        "text_color": "#7A7A7D",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 400
+        }
+      },
+      "confidence": 0.9
+    },
+    {
+      "id": "e_card_profile",
+      "kind": "card",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.22,
+        "w": 0.68,
+        "h": 0.26
+      },
+      "style": {
+        "bg_color": "#18191A",
+        "text_color": null,
+        "border": {
+          "width_px": 1,
+          "color": "#2A2B2C",
+          "radius_px": 18
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 24,
+          "right": 24,
+          "bottom": 24,
+          "left": 24
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_profile_graphic",
+      "kind": "image",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.29,
+        "y": 0.24,
+        "w": 0.18,
+        "h": 0.22
+      },
+      "style": {
+        "bg_color": "#18191A",
+        "text_color": null,
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 12
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "e_profile_percent",
+      "kind": "text",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.27,
+        "w": 0.09,
+        "h": 0.08
+      },
+      "text_ref": "t_profile_percent",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 40,
+          "weight": 600
+        }
+      },
+      "confidence": 0.75
+    },
+    {
+      "id": "e_profile_heading",
+      "kind": "text",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.35,
+        "w": 0.22,
+        "h": 0.05
+      },
+      "text_ref": "t_profile_heading",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 16,
+          "weight": 600
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_profile_subtext",
+      "kind": "text",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.40,
+        "w": 0.25,
+        "h": 0.04
+      },
+      "text_ref": "t_profile_subtext",
+      "style": {
+        "bg_color": null,
+        "text_color": "#7A7A7D",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 13,
+          "weight": 400
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_profile_button",
+      "kind": "button",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.46,
+        "w": 0.18,
+        "h": 0.055
+      },
+      "text_ref": "t_profile_button",
+      "style": {
+        "bg_color": "#2A2B2C",
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 1,
+          "color": "#2A2B2C",
+          "radius_px": 8
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 8,
+          "right": 14,
+          "bottom": 8,
+          "left": 14
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.8
+    },
+    {
+      "id": "e_profile_task_add",
+      "kind": "text",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.73,
+        "y": 0.27,
+        "w": 0.07,
+        "h": 0.04
+      },
+      "text_ref": "t_profile_task_add",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.5
+    },
+    {
+      "id": "e_profile_task_upload",
+      "kind": "text",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.73,
+        "y": 0.36,
+        "w": 0.09,
+        "h": 0.04
+      },
+      "text_ref": "t_profile_task_upload",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.5
+    },
+    {
+      "id": "e_profile_task_set",
+      "kind": "text",
+      "parent_id": "e_card_profile",
+      "bbox": {
+        "x": 0.73,
+        "y": 0.45,
+        "w": 0.07,
+        "h": 0.04
+      },
+      "text_ref": "t_profile_task_set",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.5
+    },
+    {
+      "id": "e_card_project",
+      "kind": "card",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.51,
+        "w": 0.31,
+        "h": 0.23
+      },
+      "style": {
+        "bg_color": "#18191A",
+        "text_color": null,
+        "border": {
+          "width_px": 1,
+          "color": "#2A2B2C",
+          "radius_px": 18
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_project_graphic",
+      "kind": "image",
+      "parent_id": "e_card_project",
+      "bbox": {
+        "x": 0.30,
+        "y": 0.53,
+        "w": 0.18,
+        "h": 0.15
+      },
+      "style": {
+        "bg_color": "#18191A",
+        "text_color": null,
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 12
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.6
+    },
+    {
+      "id": "e_project_heading",
+      "kind": "text",
+      "parent_id": "e_card_project",
+      "bbox": {
+        "x": 0.41,
+        "y": 0.55,
+        "w": 0.19,
+        "h": 0.05
+      },
+      "text_ref": "t_project_heading",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 16,
+          "weight": 600
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_project_subtext",
+      "kind": "text",
+      "parent_id": "e_card_project",
+      "bbox": {
+        "x": 0.41,
+        "y": 0.61,
+        "w": 0.22,
+        "h": 0.07
+      },
+      "text_ref": "t_project_subtext",
+      "style": {
+        "bg_color": null,
+        "text_color": "#7A7A7D",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 13,
+          "weight": 400
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_project_button",
+      "kind": "button",
+      "parent_id": "e_card_project",
+      "bbox": {
+        "x": 0.41,
+        "y": 0.70,
+        "w": 0.18,
+        "h": 0.055
+      },
+      "text_ref": "t_project_button",
+      "style": {
+        "bg_color": "#2A2B2C",
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 1,
+          "color": "#2A2B2C",
+          "radius_px": 8
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 8,
+          "right": 14,
+          "bottom": 8,
+          "left": 14
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 14,
+          "weight": 500
+        }
+      },
+      "confidence": 0.8
+    },
+    {
+      "id": "e_learn_icon",
+      "kind": "icon",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.76,
+        "w": 0.02,
+        "h": 0.03
+      },
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.6
+    },
+    {
+      "id": "e_learn_heading",
+      "kind": "text",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.30,
+        "y": 0.755,
+        "w": 0.09,
+        "h": 0.05
+      },
+      "text_ref": "t_learn_heading",
+      "style": {
+        "bg_color": null,
+        "text_color": "#FFFFFF",
+        "border": {
+          "width_px": 0,
+          "color": null,
+          "radius_px": 0
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": "Inter",
+          "size_px": 16,
+          "weight": 600
+        }
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "e_learn_thumb1",
+      "kind": "image",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.81,
+        "w": 0.21,
+        "h": 0.19
+      },
+      "style": {
+        "bg_color": "#2A2B2C",
+        "text_color": null,
+        "border": {
+          "width_px": 1,
+          "color": "#2A2B2C",
+          "radius_px": 16
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "e_learn_thumb2",
+      "kind": "image",
+      "parent_id": "r_main",
+      "bbox": {
+        "x": 0.50,
+        "y": 0.81,
+        "w": 0.21,
+        "h": 0.19
+      },
+      "style": {
+        "bg_color": "#2A2B2C",
+        "text_color": null,
+        "border": {
+          "width_px": 1,
+          "color": "#2A2B2C",
+          "radius_px": 16
+        },
+        "shadow": null,
+        "padding_px": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": {
+          "family_guess": null,
+          "size_px": null,
+          "weight": null
+        }
+      },
+      "confidence": 0.7
+    }
+  ],
+  "text_nodes": [
+    {
+      "id": "t_logo_text",
+      "element_id": "e_logo_text",
+      "content": "Taskplus",
+      "bbox": {
+        "x": 0.03,
+        "y": 0.03,
+        "w": 0.15,
+        "h": 0.04
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 18,
+        "weight": 600,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "t_nav_search",
+      "element_id": "e_nav_search",
+      "content": "Search",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.12,
+        "w": 0.14,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 2,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_ai",
+      "element_id": "e_nav_ai",
+      "content": "Taskplus AI",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.165,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 3,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_get_started",
+      "element_id": "e_nav_get_started_text",
+      "content": "Get Started",
+      "bbox": {
+        "x": 0.055,
+        "y": 0.218,
+        "w": 0.16,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 600,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 4,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_templates",
+      "element_id": "e_nav_templates",
+      "content": "Templates",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.27,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 5,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_notification",
+      "element_id": "e_nav_notification",
+      "content": "Notification",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.315,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 6,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_dashboard",
+      "element_id": "e_nav_dashboard",
+      "content": "Dashboard",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.385,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 7,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_inbox",
+      "element_id": "e_nav_inbox",
+      "content": "Inbox",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.43,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 8,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_tasks",
+      "element_id": "e_nav_tasks",
+      "content": "Tasks",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.475,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 9,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_calendar",
+      "element_id": "e_nav_calendar",
+      "content": "Calendar",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.52,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 10,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_reports",
+      "element_id": "e_nav_reports",
+      "content": "Reports",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.565,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 11,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_help",
+      "element_id": "e_nav_help",
+      "content": "Help & Center",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.61,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 12,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_nav_settings",
+      "element_id": "e_nav_settings",
+      "content": "Settings",
+      "bbox": {
+        "x": 0.05,
+        "y": 0.655,
+        "w": 0.17,
+        "h": 0.03
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 13,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_breadcrumb_get_started",
+      "element_id": "e_breadcrumb_get_started",
+      "content": "Get Started",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.07,
+        "w": 0.18,
+        "h": 0.035
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 13,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#7A7A7D",
+      "reading_order": 14,
+      "confidence": 0.75
+    },
+    {
+      "id": "t_heading_welcome",
+      "element_id": "e_heading_welcome",
+      "content": "Welcome to Taskplus! 👋",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.11,
+        "w": 0.5,
+        "h": 0.06
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 28,
+        "weight": 600,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 15,
+      "confidence": 0.9
+    },
+    {
+      "id": "t_subheading_welcome",
+      "element_id": "e_subheading_welcome",
+      "content": "You're just a few steps away from mastering your workflow.",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.17,
+        "w": 0.6,
+        "h": 0.04
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 400,
+        "line_height_px": null
+      },
+      "color": "#7A7A7D",
+      "reading_order": 16,
+      "confidence": 0.9
+    },
+    {
+      "id": "t_profile_percent",
+      "element_id": "e_profile_percent",
+      "content": "40%",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.27,
+        "w": 0.09,
+        "h": 0.08
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 40,
+        "weight": 600,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 17,
+      "confidence": 0.75
+    },
+    {
+      "id": "t_profile_heading",
+      "element_id": "e_profile_heading",
+      "content": "Let's Set Up Your Profile",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.35,
+        "w": 0.22,
+        "h": 0.05
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 16,
+        "weight": 600,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 18,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_profile_subtext",
+      "element_id": "e_profile_subtext",
+      "content": "Help your team recognize you!",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.40,
+        "w": 0.25,
+        "h": 0.04
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 13,
+        "weight": 400,
+        "line_height_px": null
+      },
+      "color": "#7A7A7D",
+      "reading_order": 19,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_profile_button",
+      "element_id": "e_profile_button",
+      "content": "Complete Profile  >",
+      "bbox": {
+        "x": 0.49,
+        "y": 0.46,
+        "w": 0.18,
+        "h": 0.055
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 20,
+      "confidence": 0.8
+    },
+    {
+      "id": "t_profile_task_add",
+      "element_id": "e_profile_task_add",
+      "content": "Add",
+      "bbox": {
+        "x": 0.73,
+        "y": 0.27,
+        "w": 0.07,
+        "h": 0.04
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 21,
+      "confidence": 0.5
+    },
+    {
+      "id": "t_profile_task_upload",
+      "element_id": "e_profile_task_upload",
+      "content": "Upload",
+      "bbox": {
+        "x": 0.73,
+        "y": 0.36,
+        "w": 0.09,
+        "h": 0.04
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 22,
+      "confidence": 0.5
+    },
+    {
+      "id": "t_profile_task_set",
+      "element_id": "e_profile_task_set",
+      "content": "Set",
+      "bbox": {
+        "x": 0.73,
+        "y": 0.45,
+        "w": 0.07,
+        "h": 0.04
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 23,
+      "confidence": 0.5
+    },
+    {
+      "id": "t_project_heading",
+      "element_id": "e_project_heading",
+      "content": "Create Your First Project",
+      "bbox": {
+        "x": 0.41,
+        "y": 0.55,
+        "w": 0.19,
+        "h": 0.05
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 16,
+        "weight": 600,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 24,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_project_subtext",
+      "element_id": "e_project_subtext",
+      "content": "Start by organizing your tasks into a project — big or small!",
+      "bbox": {
+        "x": 0.41,
+        "y": 0.61,
+        "w": 0.22,
+        "h": 0.07
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 13,
+        "weight": 400,
+        "line_height_px": null
+      },
+      "color": "#7A7A7D",
+      "reading_order": 25,
+      "confidence": 0.85
+    },
+    {
+      "id": "t_project_button",
+      "element_id": "e_project_button",
+      "content": "Create Project  >",
+      "bbox": {
+        "x": 0.41,
+        "y": 0.70,
+        "w": 0.18,
+        "h": 0.055
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 14,
+        "weight": 500,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 26,
+      "confidence": 0.8
+    },
+    {
+      "id": "t_learn_heading",
+      "element_id": "e_learn_heading",
+      "content": "Learn",
+      "bbox": {
+        "x": 0.30,
+        "y": 0.755,
+        "w": 0.09,
+        "h": 0.05
+      },
+      "font": {
+        "family_guess": "Inter",
+        "size_px": 16,
+        "weight": 600,
+        "line_height_px": null
+      },
+      "color": "#FFFFFF",
+      "reading_order": 27,
+      "confidence": 0.85
+    }
+  ],
+  "images": [
+    {
+      "id": "img_profile",
+      "element_id": "e_profile_graphic",
+      "bbox": {
+        "x": 0.29,
+        "y": 0.24,
+        "w": 0.18,
+        "h": 0.22
+      },
+      "kind": "graphic",
+      "dominant_colors": [
+        "#18191A",
+        "#2A2B2C",
+        "#FFFFFF"
+      ],
+      "alt_suggestion": "Circular user profile progress graphic",
+      "confidence": 0.7
+    },
+    {
+      "id": "img_project",
+      "element_id": "e_project_graphic",
+      "bbox": {
+        "x": 0.30,
+        "y": 0.53,
+        "w": 0.18,
+        "h": 0.15
+      },
+      "kind": "graphic",
+      "dominant_colors": [
+        "#2A2B2C",
+        "#18191A"
+      ],
+      "alt_suggestion": "Folder graphic",
+      "confidence": 0.6
+    },
+    {
+      "id": "img_learn1",
+      "element_id": "e_learn_thumb1",
+      "bbox": {
+        "x": 0.27,
+        "y": 0.81,
+        "w": 0.21,
+        "h": 0.19
+      },
+      "kind": "photo",
+      "dominant_colors": [
+        "#2A2B2C",
+        "#CCCCCC"
+      ],
+      "alt_suggestion": "Notebook and keyboard image",
+      "confidence": 0.5
+    },
+    {
+      "id": "img_learn2",
+      "element_id": "e_learn_thumb2",
+      "bbox": {
+        "x": 0.50,
+        "y": 0.81,
+        "w": 0.21,
+        "h": 0.19
+      },
+      "kind": "photo",
+      "dominant_colors": [
+        "#2A2B2C",
+        "#DDDDDD"
+      ],
+      "alt_suggestion": "Documents with charts",
+      "confidence": 0.5
+    }
+  ],
+  "icons": [],
+  "layout_notes": "Two-column layout: fixed dark sidebar (~23% width) with stacked navigation items; main content uses vertical flow: breadcrumb, heading, subheading, large horizontal progress card, below a smaller card grid (only first fully visible), then a 'Learn' section with image thumbnails in a row. Cards have rounded corners and subtle borders.",
+  "recreation_prompt": "Dark minimalist dashboard with a fixed narrow sidebar, white sans-serif text, gray secondary text, rounded dark cards with thin borders, bold large welcome heading, progress graphic, buttons with subtle gray backgrounds and rounded corners, and a learn section of image thumbnails."
+}

@@ -87,24 +87,24 @@ pub struct VisualConfig {
 impl Default for VisualConfig {
     fn default() -> Self {
         Self {
-            // Corner radius - unified system, more rounded like design
-            corner_radius: 12.0,
-            button_corner_radius: 12.0,
-            panel_corner_radius: 12.0,
-            tab_corner_radius: 12.0,
+            // Corner radius - Dashboard design (18px for cards, 8px for buttons)
+            corner_radius: 18.0,
+            button_corner_radius: 8.0,
+            panel_corner_radius: 18.0,
+            tab_corner_radius: 6.0,
             
-            // Spacing system
+            // Spacing system - Dashboard design (button padding: 14px x 8px)
             base_spacing: 8.0,
             item_spacing: 8.0,
-            button_padding_x: 12.0,
+            button_padding_x: 14.0,
             button_padding_y: 8.0,
             tab_spacing: 16.0,
-            panel_margin: 8.0,
+            panel_margin: 12.0,
             
-            // Typography
-            base_font_size: 16.0,
-            heading_font_size: 22.0,
-            button_font_size: 15.0,
+            // Typography - Dashboard design (Inter font: body 14px, heading 28px, button 14px)
+            base_font_size: 14.0,
+            heading_font_size: 28.0,
+            button_font_size: 14.0,
             small_font_size: 13.0,
             
             // Stroke widths
@@ -112,11 +112,11 @@ impl Default for VisualConfig {
             active_border_width: 2.0,
             focus_border_width: 1.5,
             
-            // Visual effects
+            // Visual effects - Dashboard design
             shadow_enabled: true,
-            shadow_blur: 8.0,
+            shadow_blur: 12.0,
             shadow_spread: 0.0,
-            window_rounding: 8.0,
+            window_rounding: 12.0,
             
             // Interaction feedback
             hover_expansion: 2.0,
@@ -127,29 +127,29 @@ impl Default for VisualConfig {
             animation_duration: 0.15,
             smooth_scrolling: true,
             
-            // Color system - Dark theme matching design image
-            bg_primary: 13,    // Exact #0D0D0D background
-            bg_surface: 18,    // Slightly lighter surface
-            bg_elevated: 23,   // Elevated elements
-            bg_extreme: 8,     // Deepest background
+            // Color system - Dashboard dark theme (#0F0F10, #18191A, #2A2B2C, #FFFFFF, #7A7A7D)
+            bg_primary: 15,    // #0F0F10 - Main background
+            bg_surface: 25,    // #18191A - Sidebar/card background  
+            bg_elevated: 43,   // #2A2B2C - Elevated elements/borders
+            bg_extreme: 12,    // Slightly darker than primary
             
             // Border grayscale values
-            border_default: 40,  // Subtle borders
-            border_active: 132,  // Purple accent for active borders
-            border_hover: 60,    // Hover borders
+            border_default: 43,  // #2A2B2C - Default borders
+            border_active: 122,  // Secondary text color for active borders
+            border_hover: 60,    // Slightly lighter hover borders
             
             // Text grayscale values
-            text_primary: 245,   // Very light text
-            text_secondary: 180, // Secondary text
-            text_muted: 120,     // Muted text
+            text_primary: 255,   // #FFFFFF - Primary white text
+            text_secondary: 122, // #7A7A7D - Secondary gray text  
+            text_muted: 100,     // Darker muted text
             
             // Interactive element grayscale values
-            widget_bg: 25,        // Widget background
-            widget_bg_hover: 35,  // Widget hover
-            widget_bg_active: 45, // Widget active
+            widget_bg: 25,        // #18191A - Widget background (same as surface)
+            widget_bg_hover: 35,  // Slightly lighter on hover
+            widget_bg_active: 43, // #2A2B2C - Active state
             
             // Selection grayscale value
-            selection_bg: 40,     // Selection background
+            selection_bg: 43,     // #2A2B2C - Selection background
             
             // Accent colors - purple from design image
             accent_r: 132, accent_g: 126, accent_b: 255,
@@ -375,6 +375,38 @@ impl VisualConfig {
         config.accent_b = 255;
         config
     }
+    
+    pub fn dashboard() -> Self {
+        let mut config = Self::default();
+        // Dashboard theme is already the default, but we'll make it explicit
+        config.corner_radius = 18.0;
+        config.button_corner_radius = 8.0;
+        config.panel_corner_radius = 18.0;
+        config.tab_corner_radius = 6.0;
+        config.window_rounding = 12.0;
+        config.shadow_blur = 12.0;
+        
+        // Dashboard colors (#0F0F10, #18191A, #2A2B2C, #FFFFFF, #7A7A7D)
+        config.bg_primary = 15;
+        config.bg_surface = 25;
+        config.bg_elevated = 43;
+        config.bg_extreme = 12;
+        config.border_default = 43;
+        config.text_primary = 255;
+        config.text_secondary = 122;
+        config.widget_bg = 25;
+        config.widget_bg_hover = 35;
+        config.widget_bg_active = 43;
+        
+        // Dashboard typography (Inter font)
+        config.base_font_size = 14.0;
+        config.heading_font_size = 28.0;
+        config.button_font_size = 14.0;
+        config.button_padding_x = 14.0;
+        config.button_padding_y = 8.0;
+        
+        config
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -387,6 +419,11 @@ pub struct VisualPreset {
 impl VisualPreset {
     pub fn get_default_presets() -> Vec<VisualPreset> {
         vec![
+            VisualPreset {
+                name: "Dashboard".to_string(),
+                description: "Dark modern dashboard theme with Inter font".to_string(),
+                config: VisualConfig::dashboard(),
+            },
             VisualPreset {
                 name: "Default".to_string(),
                 description: "Balanced design with modern styling".to_string(),

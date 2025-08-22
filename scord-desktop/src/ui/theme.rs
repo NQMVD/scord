@@ -6,7 +6,7 @@ pub fn setup_custom_style(ctx: &egui::Context) {
 }
 
 pub fn setup_custom_style_with_config(ctx: &egui::Context, config: &VisualConfig) {
-    // Setup PP Supply Sans font (webfont version with corrected metrics)
+    // Setup custom font (keeping the working font, styled for dashboard design)
     let mut fonts = FontDefinitions::default();
     
     // Load PP Supply Sans Light webfont with corrected vertical metrics
